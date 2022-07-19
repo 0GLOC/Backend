@@ -1,0 +1,65 @@
+body {
+    background-color: #285467;
+}
+
+.form-register {
+  width: 400px;
+  background: #285467;
+  padding: 30px;
+  padding-left: 10px;
+  margin: auto;
+  margin-top: 100px;
+  border-radius: 4px;
+  font-family: 'calibri';
+  color: white;
+  box-shadow: 7px 13px 37px #133043;
+}
+
+#titleForm {
+    text-align: center;
+    font-family: 'calibri';
+    font-size: 30px;
+}
+
+.form-register .botons {
+  width: 100%;
+  background: #133043;
+  border: none;
+  padding: 12px;
+  color: white;
+  margin: 16px 0;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.botons{
+    border-radius: 10px;
+}
+
+.controls {
+  width: 100%;
+  background: #377b80;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  border: 1px solid #285467;
+  font-family: 'calibri';
+  font-size: 18px;
+  color: white;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.controls::placeholder {
+    color:white;
+}
+
+.botons:hover{
+    transform: translateY(-2px);
+    box-shadow: #0b1b25  0 5px 7px;
+    cursor: pointer;
+}

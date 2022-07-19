@@ -1,4 +1,4 @@
-const fs = require('fs');
+import * as fs from 'fs';
 
 const path = 'src/files/objects.txt'
 
@@ -46,12 +46,15 @@ class Container {
     };
     getById = async(object) => {
         try {
+            const error = 'This product does not exist'
             let objects = await this.getAll();
             const result = objects.filter(function (nickname) { return nickname.id == object });
             if (object > result) {
-                console.log('This product does not exist')
+                console.log({error})
+                return {error}
             } else {
                 console.log(result);
+                return result
             };
         } catch (error) {
             console.log(error)
@@ -78,4 +81,4 @@ class Container {
     };
 };
 
-module.exports = Container;
+export default Container;

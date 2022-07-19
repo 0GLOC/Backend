@@ -40,5 +40,11 @@
 		"price": 456,
 		"thumbnail": "https://cdn.akamai.steamstatic.com/steam/apps/1794960/header.jpg?t=1655826371",
 		"id": 7
+	},
+	{
+		"title": "Grand Theft Auto: San Andreas",
+		"price": "190",
+		"thumbnail": "src\\public\\img\\1658270357557-jh2nothkuqy31.png",
+		"id": 8
 	}
 ]
