@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 //Add object and return id
 router.post('/', uploader.single('file'), async (req, res) => {
     let product = req.body;
-    product.thumbnail = req.file.path;
+    product.thumbnail = req.file.filename;
     console.log(product)
 
     if(!product.title) return res.status(400).send({status:"error", message:"Invalid Title"})

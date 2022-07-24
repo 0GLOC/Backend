@@ -46,5 +46,11 @@
 		"price": "190",
 		"thumbnail": "src\\public\\img\\1658270357557-jh2nothkuqy31.png",
 		"id": 8
+	},
+	{
+		"title": "GTA",
+		"price": "190",
+		"thumbnail": "1658699752253-jh2nothkuqy31.png",
+		"id": 9
 	}
 ]
