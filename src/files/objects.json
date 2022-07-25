@@ -1,0 +1,20 @@
+[
+	{
+		"title": "Devil May Cry HD",
+		"price": "235",
+		"thumbnail": "1658705083631-devil may cry.jpg",
+		"id": 2
+	},
+	{
+		"title": "Dark Souls",
+		"price": "578",
+		"thumbnail": "1658705111712-dark souls.jpg",
+		"id": 3
+	},
+	{
+		"title": "The Messenger",
+		"price": "190",
+		"thumbnail": "1658705127266-the messenger.jpg",
+		"id": 4
+	}
+]

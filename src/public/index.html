@@ -14,7 +14,13 @@
         <input class="controls" type="number" name="price" id="price" placeholder="Ingrese el Precio" autoComplete='off'/>
         <input class="controls" type="file" name="file" id="file" placeholder="Ingrese su imagen" autoComplete='off'/>
         <input class="botons" type="submit" value="Añadir">
+        <button class="botons" type="button" onclick="goToLink(this)" value="http://localhost:8080/productos">Ver los productos</button>
     </form>
+    <script>
+        function goToLink(link){
+            location.href = link.value;
+        }
+    </script>
     <script src="./js/index.js"></script>
 </body>
 </html>

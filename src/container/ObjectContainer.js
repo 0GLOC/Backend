@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-const path = 'src/files/objects.txt'
+const path = 'src/files/objects.json'
 
 class Container {
     getAll = async() => {

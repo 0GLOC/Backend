@@ -1,10 +1,16 @@
-<div>
-    <h1>Productos disponibles</h1>
-    {{#each objects}}
-        <div class="productCard">
-            <p>{{this.title}}</p>
-            <p>{{this.price}}</p>
-            <img src="http://localhost:8080/img/{{this.thumbnail}}">
+<h1 class="title">Productos Disponibles:</h1>
+{{#each objects}}
+<div class="row mt-4">
+    <div class="col-lg-6 offset-lg-3">
+        <div class="card">
+            <img class="card-img-top" src="http://localhost:8080/img/{{this.thumbnail}}" alt="Card image">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-text">${{this.price}}</p>
         </div>
-    {{/each}}    
+    </div>
 </div>
+{{/each}}
+<div class="col-lg-6 offset-lg-3">
+    <button class="botons" type="button" onclick="goToLink(this)" value="http://localhost:8080/">Añadir más productos</button>
+</div>
+<br>

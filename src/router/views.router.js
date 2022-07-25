@@ -5,10 +5,10 @@ const router = Router();
 
 const ContainerService = new Container();
 
-router.get('/objects.txt',async (req, res) => {
+router.get('/',async (req, res) => {
     let objects = await ContainerService.getAll();
 
-    res.render('objects', {objects})
+    res.render('products', {objects})
 });
 
 export default router;
