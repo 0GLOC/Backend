@@ -1,0 +1,18 @@
+html
+    head
+        title="Pug"
+    body
+        if (objects.length>0)
+            div
+                each product in objects
+                    div
+                        p=product.title
+                    div
+                        p=product.price
+                    div
+                        img(src=`http://localhost:8080/img/${product.thumbnail}`, alt="image card")
+        else
+            p="No hay productos disponibles"
+        br
+        a(class="button" href="http://localhost:8080/") Añadir más productos
+        

@@ -13,6 +13,8 @@ const server = app.listen(port, () => {
 });
 
 app.use(express.json());
+app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 app.engine('handlebars', handlebars.engine());
 app.set('views',__dirname+'/views');
 app.set('view engine', 'handlebars');

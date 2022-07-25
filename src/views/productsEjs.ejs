@@ -1,0 +1,19 @@
+<% if (objects.length>0) { %>
+    <% objects.forEach(product => { %>
+        <p><%= product.title %> </p>
+        <p><%= product.price %> </p>
+        <img src='<%= `http://localhost:8080/img/${product.thumbnail}` %>' />
+    <% }) %>
+    <br>
+    <br>
+    <button type="button" onclick="goToLink(this)" value="http://localhost:8080/">Añadir más productos</button>
+<% } else { %>
+    <p>No hay productos disponibles</p>
+<% } %>
+
+<script>
+    function goToLink(link){
+        location.href = link.value;
+    }
+</script>
+
