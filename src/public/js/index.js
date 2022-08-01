@@ -1,4 +1,4 @@
-let newProductData = document.getElementById('form-id');
+/*let newProductData = document.getElementById('form-id');
 
 const handleSubmit = (evt, form, route) => {
     evt.preventDefault();
@@ -9,4 +9,4 @@ const handleSubmit = (evt, form, route) => {
     })
 }
 
-newProductData.addEventListener('submit', (e) => handleSubmit(e,e.target,'/productos'))
+newProductData.addEventListener('submit', (e) => handleSubmit(e,e.target,'/productos'))*/

@@ -1,0 +1,29 @@
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Imagen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each objects}}
+        {{#if objects.lenght }}
+            <td>No hay productos disponibles</td>
+        {{else}}
+        <tr>
+        <td>{{this.title}}</td>
+        <td>${{this.price}}</td>
+        <td><img class="img-top" src="http://localhost:8080/img/{{this.thumbnail}}" alt="Card image" width="150px"></td>
+        </tr>
+        {{/if}}
+        {{/each}}
+    </tbody>
+</table>
+
+<style>
+    .table.table-striped.table-dark{
+        margin-top: 30px;
+    }
+</style>
+    

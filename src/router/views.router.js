@@ -8,7 +8,11 @@ const ContainerService = new Container();
 
 let objects = await ContainerService.getAll();
 
-router.post('/', uploader.single('file'), async (req, res) => {
+router.get('/',async (req, res) => {
+    res.render('form', {objects})
+});
+
+router.post('/productos', uploader.single('file'), async (req, res) => {
     let product = req.body;
     product.thumbnail = req.file.filename;
     console.log(product)
@@ -21,20 +25,12 @@ router.post('/', uploader.single('file'), async (req, res) => {
 
     let returnId = objects[objects.length - 1].id;
     let sum = returnId + '';
-
+    
     res.send({status:"success", message:"product added", id:sum })
 });
 
-router.get('/',async (req, res) => {
+router.get('/productos',async (req, res) => {
     res.render('products', {objects})
-});
-
-router.get('/pug',async (req, res) => {
-    res.render('productsPug.pug', {objects})
-});
-
-router.get('/ejs',async (req, res) => {
-    res.render('productsEjs.ejs', {objects})
 });
 
 export default router;
