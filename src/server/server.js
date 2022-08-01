@@ -38,4 +38,7 @@ io.on('connection',socket => {
         let messages = await ContainerMessagesSaves.getAll();
         io.emit('log', messages)
     })
+    socket.on('listener', (data) => {
+        io.emit('listener', data)
+    })
 })

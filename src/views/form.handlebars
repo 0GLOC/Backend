@@ -3,11 +3,28 @@
     <input class="form-control" type="text" name="title" id="title" placeholder="Ingrese el Titulo" autoComplete='off'/>
     <input class="form-control" type="number" name="price" id="price" placeholder="Ingrese el Precio" autoComplete='off'/>
     <input class="form-control" type="file" name="file" id="file" placeholder="Ingrese su imagen" autoComplete='off'/>
-    <input class="btn btn-success" type="submit" value="Añadir">
+    <input class="btn btn-success" type="submit" value="Añadir" id="send">
     <button class="btn btn-dark" type="button" onclick="goToLink(this)" value="http://localhost:8080/productos">Ver los productos</button>
 </form>
-{{>productsForm}}
+
+<div id="tableListener">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+            <th scope="col">Título</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Imagen</th>
+            </tr>
+        </thead>
+        <tbody id="dataListener">
+        </tbody>
+    </table>
+</div>
 {{>chat}}
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/listenerProducts.js"></script>
+
 <script>
     let newProductData = document.getElementById('form-id');
 
@@ -21,7 +38,9 @@
     }
 
     newProductData.addEventListener('submit', (e) => handleSubmit(e,e.target,'/productos'))
+
 </script>
+
 <style>
     .form-register{
         margin-top: 30px;
@@ -30,13 +49,19 @@
     }
     #titleForm{
         padding-bottom: 20px;
-        font-family: 'Times New Roman', Times, serif;
-        font-weight: bold;
         font-size: 40px;
     }
     .form-control{
         margin-bottom: 30px;
         padding: 3px;
         padding-left: 10px;
+    }
+    .table.table-striped.table-dark{
+        margin-top: 30px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
     }
 </style>
