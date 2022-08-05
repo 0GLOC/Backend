@@ -1,26 +1,47 @@
 [
 	{
-		"title": "Devil May Cry HD",
-		"price": "235",
-		"thumbnail": "1658705083631-devil may cry.jpg",
-		"id": 2
+		"title": "Celeste",
+		"price": 555,
+		"thumbnail": "1658705076389-celeste.jpg",
+		"descripcion": "Ayuda a Madeline a sobrevivir a los demonios de su interior en su viaje hasta lacima de la montaña Celeste, en este ajustadísimo plataforma, obra de los creadores deTowerFall. Enfréntate a cientos de desafíos diseñados a mano, devela retorcidos secretos y, yreconstruye el misterio de la montaña.",
+		"id": 1,
+		"code": 1411941496027,
+		"timestamp": 1659677143190
 	},
 	{
-		"title": "Dark Souls",
-		"price": "578",
+		"title": "Devil May Cry HD Collection",
+		"price": 623,
+		"thumbnail": "1658705083631-devil may cry.jpg",
+		"descripcion": "¡Los populares juegos de acción acrobática Devil May Cry, Devil May Cry 2 y DevilMay Cry 3 Special Edition vuelven en una única colección!",
+		"id": 2,
+		"code": 429651419857,
+		"timestamp": 1659677325706
+	},
+	{
+		"title": "Dark Souls Remastered",
+		"price": 623,
 		"thumbnail": "1658705111712-dark souls.jpg",
-		"id": 3
+		"descripcion": "Entonces llegó el Fuego. Vuelve a disfrutar del aclamado juego que definió elgénero con el que empezó todo. Gracias a una magnífica remasterización, podrás regresar aLordran con unos impresionantes detalles en alta definición y a 60 fps.",
+		"id": 3,
+		"code": 687972447326,
+		"timestamp": 1659677385197
 	},
 	{
 		"title": "The Messenger",
-		"price": "190",
+		"price": 429,
 		"thumbnail": "1658705127266-the messenger.jpg",
-		"id": 4
+		"descripcion": "Mientras un ejército demoníaco asedia su aldea, un joven ninja se adentra en unmundo maldito para llevar un pergamino crucial para la supervivencia de su clan.",
+		"id": 4,
+		"code": 41353638116,
+		"timestamp": 1659677426352
 	},
 	{
 		"title": "Darkest Dungeon",
-		"price": "290",
+		"price": 429,
 		"thumbnail": "1658728484794-DarkestDungeon.jpg",
-		"id": 5
+		"descripcion": "Darkest Dungeon es un desafiante juego de rol gótico en mazmorras y por turnos que gira en torno al esfuerzo psicológico de la aventura.Recluta, entrena y lidera a un equipo de héroes imperfectos a través de enrevesados bosques, laberintos olvidados, criptas en ruinas y más allá.",
+		"id": 5,
+		"code": 1344829963690,
+		"timestamp": 1659677472664
 	}
 ]

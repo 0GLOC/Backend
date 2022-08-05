@@ -19,16 +19,27 @@ class Container {
     save = async(object) => {
         try {
             let objects = await this.getAll();
+            let randomCalculator = Date.now();
+            let random = Math.round(Math.random()*randomCalculator);
             if (objects.length === 0) {
                 object.id = 1;
                 objects.push(object);
                 await fs.promises.writeFile(path, JSON.stringify(objects, null, '\t'));
             } else {
                 object.id = objects[objects.length - 1].id + 1;
+                object.code = random;
+                object.timestamp = Date.now();
                 objects.push(object);
                 await fs.promises.writeFile(path, JSON.stringify(objects, null, '\t'));
             };
 
+        } catch (error) {
+            console.log(error)
+        };
+    };
+    replaceObject = async(object) => {
+        try {
+            await fs.promises.writeFile(path, JSON.stringify(object, null, '\t'));
         } catch (error) {
             console.log(error)
         };
@@ -72,7 +83,6 @@ class Container {
         try {
             let objects = await this.getAll();
             const result = objects.filter(function (nickname) { return nickname.id !== object });
-            console.log(result)
             await fs.promises.writeFile(path, JSON.stringify(result.splice({}), null, '\t'));
             console.log('File removed')
         } catch (error) {

@@ -4,7 +4,7 @@
     <input class="form-control" type="number" name="price" id="price" placeholder="Ingrese el Precio" autoComplete='off'/>
     <input class="form-control" type="file" name="file" id="file" placeholder="Ingrese su imagen" autoComplete='off'/>
     <input class="btn btn-success" type="submit" value="Añadir" id="send">
-    <button class="btn btn-dark" type="button" onclick="goToLink(this)" value="http://localhost:8080/productos">Ver los productos</button>
+    <button class="btn btn-dark" type="button" onclick="goToLink(this)" value="http://localhost:8080/products">Ver los productos</button>
 </form>
 
 <div id="tableListener">
@@ -37,7 +37,7 @@
         })
     }
 
-    newProductData.addEventListener('submit', (e) => handleSubmit(e,e.target,'/productos'))
+    newProductData.addEventListener('submit', (e) => handleSubmit(e,e.target,'/products'))
 
 </script>
 

@@ -12,7 +12,7 @@ router.get('/',async (req, res) => {
     res.render('form', {objects})
 });
 
-router.post('/productos', uploader.single('file'), async (req, res) => {
+router.post('/products', uploader.single('file'), async (req, res) => {
     let product = req.body;
     product.thumbnail = req.file.filename;
     console.log(product)
@@ -29,7 +29,7 @@ router.post('/productos', uploader.single('file'), async (req, res) => {
     res.send({status:"success", message:"product added", id:sum })
 });
 
-router.get('/productos',async (req, res) => {
+router.get('/products',async (req, res) => {
     res.render('products', {objects})
 });
 
