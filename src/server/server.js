@@ -24,7 +24,7 @@ app.set('view engine', 'pug');
 app.engine('handlebars', handlebars.engine());
 app.set('views',__dirname+'/views');
 app.set('view engine', 'handlebars');
-app.use('/api/productos', productsRouter);
+app.use('/api/products', productsRouter);
 app.use('/', viewsRouter);
 app.use(express.static(__dirname+'/public'));
 

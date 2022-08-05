@@ -1,6 +1,5 @@
 import { Router } from "express";
 import Container from "../container/ObjectContainer.js";
-import uploader from "../utils/utils.js";
 
 const router = Router();
 
@@ -26,9 +25,9 @@ router.get('/:id', async (req, res) => {
 });
 
 //Add object and return id
-/*router.post('/', uploader.single('file'), async (req, res) => {
+router.post('/', async (req, res) => {
     let product = req.body;
-    product.thumbnail = req.file.filename;
+
     console.log(product)
 
     if(!product.title) return res.status(400).send({status:"error", message:"Invalid Title"})
@@ -41,7 +40,7 @@ router.get('/:id', async (req, res) => {
     let sum = returnId + '';
 
     res.send({status:"success", message:"product added", id:sum })
-});*/
+});
 
 //Return and refresh object by id
 router.put('/:id', async (req, res) => {
@@ -49,18 +48,13 @@ router.put('/:id', async (req, res) => {
     let idSearch = req.params.id;
     let realNumber = parseInt(idSearch)
 
-    let newArray = [];
-
-    newArray.push(newObject);
-
     const error = 'Please insert a number instead';
     if(isNaN(idSearch)) return res.status(400).send({error})
 
     let objectById = await ContainerService.getById(realNumber);
 
-    objectById = newArray;
 
-    res.send({status: 'New object add succesfully', 'New object': newArray});
+    res.send({status: 'New object add succesfully'});
 });
 
 //Delete object by id
