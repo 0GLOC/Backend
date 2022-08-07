@@ -1,6 +1,7 @@
 import express from 'express';
 import __dirname from '../utils.js';
 import productsRouter from '../router/productos.router.js';
+import cartRouter from '../router/cart.router.js';
 import viewsRouter from '../router/views.router.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
@@ -25,6 +26,7 @@ app.engine('handlebars', handlebars.engine());
 app.set('views',__dirname+'/views');
 app.set('view engine', 'handlebars');
 app.use('/api/products', productsRouter);
+app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
 app.use(express.static(__dirname+'/public'));
 
