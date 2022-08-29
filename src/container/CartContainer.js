@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+/*import * as fs from 'fs';
 
 const path = 'src/files/carts.json'
 
@@ -72,4 +72,4 @@ class CartContainer {
     };
 };
 
-export default CartContainer;
+export default CartContainer;*/

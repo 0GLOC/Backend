@@ -13,7 +13,7 @@
 			},
 			{
 				"product": 5,
-				"quantity": 8
+				"quantity": 12
 			}
 		]
 	},
@@ -28,6 +28,20 @@
 			{
 				"product": 2,
 				"quantity": 3
+			}
+		]
+	},
+	{
+		"id": 3,
+		"timestamp": 1661555136426,
+		"products": [
+			{
+				"product": 5,
+				"quantity": 8
+			},
+			{
+				"product": 2,
+				"quantity": 4
 			}
 		]
 	}

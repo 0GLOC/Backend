@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+/*import * as fs from 'fs';
 
 const path = 'src/files/objects.json'
 
@@ -91,4 +91,4 @@ class Container {
     };
 };
 
-export default Container;
+export default Container;*/

@@ -1,12 +1,11 @@
 import { Router } from "express";
-import Container from "../container/ObjectContainer.js";
 import uploader from "../utils/utils.js";
+import services from "../dao/config.js";
 
 const router = Router();
 
-const ContainerService = new Container();
 
-let objects = await ContainerService.getAll();
+let objects = await services.productsService.getAll();
 
 router.get('/',async (req, res) => {
     res.render('form', {objects})
