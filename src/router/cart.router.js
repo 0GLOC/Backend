@@ -21,13 +21,12 @@ router.delete('/:cid', async (req, res) => {
     let idDelete = req.params.cid;
     let realNumber = parseInt(idDelete)
 
-    //let allCarts = await services.cartService.getAll();
-    //let CartLength = allCarts.length;
+    let allCarts = await services.cartService.getAll();
 
     //Validations
     //if(isNaN(idDelete)) return res.status(400).send({error: 'Please insert a number instead'});
-    //if(realNumber > CartLength) return res.status(400).send({error: 'This product does not exist'});
-    //if(realNumber < CartLength) return res.status(400).send({error: 'This product does not exist'});
+    let exist = allCarts.find(nickname => nickname.id == idDelete );
+    if (exist === undefined) return res.status(400).send({error: 'This cart does not exist'})
     
     let deleteCartById = await services.cartService.deleteById(idDelete);
     
@@ -45,8 +44,9 @@ router.get('/:cid/products', async (req, res) => {
 
     //Validations
     //if(isNaN(idSearch)) return res.status(400).send({error: 'Please insert a number instead'});
-    if(realNumber < 1) return res.status(400).send({error: 'This cart does not exist'});
-    //if(realNumber > CartLength) return res.status(400).send({error: 'This cart does not exist'});
+    let exist = allCarts.find(nickname => nickname.id == idSearch );
+    if (exist === undefined) return res.status(400).send({error: 'This cart does not exist'})
+    if(realNumber < 1) return res.status(400).send({error: 'This cart does not exist'});    
 
     let returnProducts = await services.cartService.showProducts(idSearch);
     console.log('RETURN', returnProducts);
@@ -72,13 +72,15 @@ router.post('/:cid/products', async (req, res) => {
 
     //Check if the id exist
     let objects = await services.productsService.getAll();
-    let objectsLength = objects.length;
     let carts = await services.cartService.getAll();
+    let exist = carts.find(nickname => nickname.id == idSearch );
+    let existProduct = objects.find(nickname => nickname.id == newObject.product );
 
     //Validations
     //if(isNaN(idSearch)) return res.status(400).send({error: 'Please insert a number instead'});
-    //if(isNaN(!newObject.product || !newObject.quantity)) return res.status(400).send({error: 'Please insert a number instead in the fields'});
-    if(newObject.product > objectsLength) return res.status(400).send({error: 'This product does not exist'});
+    if(isNaN(!newObject.product || !newObject.quantity)) return res.status(400).send({error: 'Please insert a number instead in the fields'});
+    if (exist === undefined) return res.status(400).send({error: 'This cart does not exist'})
+    if (existProduct === undefined) return res.status(400).send({error: 'This product does not exist'})
     if(newObject.product < 1) return res.status(400).send({error: 'The value of the fields must not be less than 0'});
     if(newObject.quantity < 1) return res.status(400).send({error: 'The value of the fields must not be less than 0'});
     if(!newObject.product || !newObject.quantity) return res.status(400).send({error: 'Please add the missing fields'});
@@ -98,16 +100,16 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 
     //Check if the id exist
     let carts = await services.cartService.getAll();
-    let CartLength = carts.length;
     let objects = await services.productsService.getAll();
-    let objectsLength = objects.length;
+
+    let existCart = carts.find(nickname => nickname.id == idSearchCart );
+    let existProduct = objects.find(nickname => nickname.id == realNumberProduct );
 
     //Validations
     //if(isNaN(idSearchCart)) return res.status(400).send({error: 'Please insert a number instead'});
-    //if(isNaN(idSearchProduct)) return res.status(400).send({error: 'Please insert a number instead'});
-    //if(realNumberCart > CartLength) return res.status(400).send({error: 'This cart does not exist'});
-    //if(realNumberCart < CartLength) return res.status(400).send({error: 'This cart does not exist'});
-    if(realNumberProduct > objectsLength) return res.status(400).send({error: 'This product does not exist'});
+    if(isNaN(idSearchProduct)) return res.status(400).send({error: 'Please insert a number instead'});
+    if (existCart === undefined) return res.status(400).send({error: 'This cart does not exist'})
+    if (existProduct === undefined) return res.status(400).send({error: 'This product does not exist'})
     if(realNumberProduct < 0) return res.status(400).send({error: 'This product does not exist'});
 
     await services.cartService.replaceObject(carts, idSearchProduct, idSearchCart);

@@ -59,26 +59,21 @@ export default class MongoDBContainerCarts{
                 return x.product;
             });
 
-            console.log('findProduct', findProduct)
             
             let findQuantity = onlyObject.map(function(x) {
                 return x.quantity;
             });
-            console.log('findQuantity', findQuantity)
             const resultFilter = onlyObject.filter(function (nickname) { return nickname.product == object.product });
             let quantityResult = resultFilter.map(function(x) {
                 return x.quantity;
             });
-            console.log('quantityResult', quantityResult)
             let searchProduct = findProduct.includes(object.product);
-            console.log(searchProduct);
 
             if (searchProduct){
+                await this.model.updateMany({},{$pull: {products: {product: object.product}}});
                 object.quantity = parseInt(object.quantity) + parseInt(quantityResult);
                 let result = findProduct.indexOf(object.product);
                 let realResult = parseInt(result);
-                console.log(realResult);
-                let del = await this.model.updateOne({},{$pull: {products: {product: object.product}}});
                 let set = await this.model.updateOne({_id:position},{$push:{products: {$each: [{product: object.product, quantity: object.quantity}], $position: realResult}}});
             } else {
                 let set = await this.model.updateOne({_id:position},{$push:{products: {$each: [{product: object.product, quantity: object.quantity}]}}});

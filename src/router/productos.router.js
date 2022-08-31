@@ -13,11 +13,15 @@ router.get('/', async (req, res) => {
 //Get object by id
 router.get('/:pid', async (req, res) => {
     let idSearch = req.params.pid;
+    let realNumber = parseInt(idSearch)
 
     const admin = false;
 
-    const error = 'Please insert a number instead';
-    if(isNaN(idSearch)) return res.status(400).send({error})
+    let objects = await services.productsService.getAll();
+    let exist = objects.find(nickname => nickname.id == realNumber );
+
+    if(isNaN(idSearch)) return res.status(400).send({error: 'Please insert a number instead'})
+    if (exist === undefined) return res.status(400).send({error: 'This product does not exist'})
 
     let objectById = await services.productsService.getById(idSearch);
 
@@ -50,10 +54,14 @@ router.put('/:pid', async (req, res) => {
     let idSearch = req.params.pid;
     let realNumber = parseInt(idSearch)
 
+    const objects = await services.productsService.getAll();
+
     let randomCalculator = Date.now();
     let random = Math.round(Math.random()*randomCalculator);
     newObject.timestamp = randomCalculator;
     newObject.code = random;
+
+    let exist = objects.find(nickname => nickname.id == realNumber );
 
     const admin = true;
 
@@ -61,7 +69,8 @@ router.put('/:pid', async (req, res) => {
     if(!admin) return res.status(400).send({status:"error", message:"You do not have the required permissions"})
     if(isNaN(idSearch)) return res.status(400).send({error: 'Please insert a number instead'});
     if(realNumber !== newObject.id) return res.status(400).send({error: 'The id must not be modified or missing'});
-    if(!newObject.title || !newObject.price || !newObject.thumbnail || !newObject.descripcion || !newObject.code || !newObject.timestamp) return res.status(400).send({error: 'Please add the missing fields'});
+    if (exist === undefined) return res.status(400).send({error: 'This product does not exist'})
+    if(!newObject.title || !newObject.price || !newObject.thumbnail || !newObject.descripcion) return res.status(400).send({error: 'Please add the missing fields'});
 
     await services.productsService.replaceObject(realNumber, newObject);
 
@@ -74,13 +83,14 @@ router.delete('/:pid', async (req, res) => {
     let realNumber = parseInt(idDelete)
 
     const objects = await services.productsService.getAll();
-    const objectsLength = objects.length;
     const admin = true;
+
+    let exist = objects.find(nickname => nickname.id == realNumber );
 
     //Validations (isNaN / Product id exist/ Admin)
     if(!admin) return res.status(400).send({status:"error", message:"You do not have the required permissions"})
     if(isNaN(idDelete)) return res.status(400).send({error: 'Please insert a number instead'})
-    if(realNumber > objectsLength) return res.status(400).send({error: 'This product does not exist'});
+    if (exist === undefined) return res.status(400).send({error: 'This product does not exist'})
     if(realNumber < 0) return res.status(400).send({error: 'This product does not exist'});
     
     let deleteProductById = await services.productsService.deleteById(idDelete);
