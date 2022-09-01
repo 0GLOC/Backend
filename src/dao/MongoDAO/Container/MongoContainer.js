@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 export default class MongoDBContainer{
     constructor(collection, schema){
-        mongoose.connect('mongodb://127.0.0.1/ecommerceDB')
+        //Password is missing
+        mongoose.connect('mongodb+srv://0GLOC:(password)@ecommerce.ampswjk.mongodb.net/ecommerceDB')
         this.model = mongoose.model(collection, schema);
     }
     getAll = async() => {
