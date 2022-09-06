@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export default class MongoDBContainerCarts{
     constructor(collection, schema){
         //Password is missing
-        mongoose.connect('mongodb+srv://0GLOC:(password)@ecommerce.ampswjk.mongodb.net/ecommerceDB')
+        mongoose.connect('mongodb+srv://0GLOC:gabimaidana15@ecommerce.ampswjk.mongodb.net/ecommerceDB')
         this.model = mongoose.model(collection, schema);
     }
     getAll = async() => {

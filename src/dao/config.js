@@ -2,6 +2,7 @@ const persistence = "MONGO";
 
 let productsService;
 let cartService;
+let messagesService;
 switch (persistence) {
     case "MEMORY":
         const {default:MemProduct} = await import('./MemoryDAO/Products.js');
@@ -18,13 +19,16 @@ switch (persistence) {
     case "MONGO":
         const {default:ProductsMongo} = await import('./MongoDAO/Products.js');
         const {default:CartsMongo} = await import('./MongoDAO/Carts.js');
+        const {default:MessageMongo} = await import('./MongoDAO/Messages.js');
         productsService = new ProductsMongo();
         cartService = new CartsMongo();
+        messagesService = new MessageMongo();
 }
 
 const services = {
     productsService,
-    cartService
+    cartService,
+    messagesService
 }
 
 export default services;
