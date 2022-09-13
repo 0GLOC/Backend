@@ -1,0 +1,28 @@
+<div class="username">
+    <h2>Hasta luego {{this.nameView}}!</h2>
+</div>
+
+<style>
+    .username{
+        background-color: #28a745;
+        color: white;
+        margin-top: 20px;
+        border-radius: 4px;
+        padding: 5px;
+        padding-left: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+<script>
+    function reloadAgain(){
+        window.location.href = "http://localhost:8080/";
+    }
+
+    function activated(){
+        setTimeout(reloadAgain, 2000)
+    }
+
+    activated();
+</script>

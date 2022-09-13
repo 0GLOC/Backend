@@ -4,11 +4,26 @@ import services from "../dao/config.js";
 
 const router = Router();
 
-
 let objects = await services.productsService.getAll();
 
 router.get('/',async (req, res) => {
-    res.render('form', {objects})
+    if (req.session.user) {
+        let nameView = req.session.user.name
+        res.render('form', {objects, nameView});
+    } else {
+        res.render('register');
+    }
+});
+
+router.get('/logout', async (req, res) => {
+    let nameView = req.session.user.name
+    req.session.destroy(err => {
+        if (err) {
+            return res.send("Couldn't log out, please let try again")
+        } else {
+            res.render('logout', {nameView});
+        }
+    })
 });
 
 router.post('/products', uploader.single('file'), async (req, res) => {

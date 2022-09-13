@@ -1,3 +1,7 @@
+<div class="username">
+    <h2>Bienvenido {{this.nameView}}!</h2>
+    <button class="btn btn-dark" id="buttonUsername" type="button" onclick="goToLink(this)" value="http://localhost:8080/logout">Desloguear</button>
+</div>
 <form class="form-register" id="form-id">
     <h4 id="titleForm">Añadir un producto</h4>
     <input class="form-control" type="text" name="title" id="title" placeholder="Ingrese el Titulo" autoComplete='off'/>
@@ -42,6 +46,21 @@
 </script>
 
 <style>
+    .username{
+        background-color: #28a745;
+        color: white;
+        margin-top: 20px;
+        border-radius: 4px;
+        padding: 5px;
+        padding-left: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+    #buttonUsername{
+        margin-right: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
     .form-register{
         margin-top: 30px;
         padding-bottom: 30px;
