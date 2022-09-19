@@ -12,7 +12,7 @@ const messagesSchema = mongoose.Schema({
             age: Number,
             nickname: String,
             avatar: String,
-            date: Date
+            date: String
         },
         text: String,
         id: Number

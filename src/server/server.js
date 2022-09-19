@@ -11,6 +11,8 @@ import MessageLibrary from '../container/ReadMessage.js';
 import services from '../dao/config.js';
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import initializePassport from '../config/passport.config.js';
+import passport from 'passport';
 
 const app = express();
 
@@ -34,6 +36,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 app.set('view engine', 'ejs');
 app.set('view engine', 'pug');
 app.engine('handlebars', handlebars.engine());

@@ -6,12 +6,34 @@ const router = Router();
 
 let objects = await services.productsService.getAll();
 
+let loginpass = '';
+let registerPass = '';
+
 router.get('/',async (req, res) => {
-    if (req.session.user) {
-        let nameView = req.session.user.name
-        res.render('form', {objects, nameView});
+    if (registerPass === 'success') {
+        res.render('failRegister')
+        registerPass = '';
     } else {
-        res.render('register');
+        if (req.session.user) {
+            let nameView = req.session.user.name
+            res.render('form', {objects, nameView});
+        } else {
+            res.render('register');
+        }
+    }
+});
+
+router.get('/login',async (req, res) => {
+    if (loginpass === 'success') {
+        res.render('failLogin')
+        loginpass = '';
+    } else {
+        if (req.session.user) {
+            let nameView = req.session.user.name
+            res.render('form', {objects, nameView});
+        } else {
+            res.render('login');
+        }
     }
 });
 
@@ -34,8 +56,7 @@ router.post('/products', uploader.single('file'), async (req, res) => {
     if(!product.title) return res.status(400).send({status:"error", message:"Invalid Title"})
     if(!product.price) return res.status(400).send({status:"error", message:"Invalid Price"})
 
-    const saveObject = await ContainerService.save(product);
-    const objects = await ContainerService.getAll();
+    const saveObject = await services.productsService.save(product);
 
     let returnId = objects[objects.length - 1].id;
     let sum = returnId + '';
@@ -44,7 +65,16 @@ router.post('/products', uploader.single('file'), async (req, res) => {
 });
 
 router.get('/products',async (req, res) => {
-    res.render('products', {objects})
+    let obj = JSON.parse(JSON.stringify(objects));
+    res.render('products', {obj})
+});
+
+router.get('/loginFail',async (req, res) => {
+    loginpass = 'success'
+});
+
+router.get('/registerFail',async (req, res) => {
+    registerPass = 'success'
 });
 
 export default router;

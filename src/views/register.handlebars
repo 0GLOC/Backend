@@ -1,11 +1,12 @@
 <div class="registerContainer">
-    <h3 class="registerTitle">Registrate</h3>
+    <h3 class="registerTitle">Registrarse</h3>
 
     <form id="registerForm">
-        <label class="labelRegister">Nombre:</label>
+        <label class="labelRegister">Usuario:</label>
         <input class="registerInput" name="name">
         <label class="labelRegister">Contraseña:</label>
         <input class="registerInput" type="password" name="password">
+        <button class="redirect" type="button" onclick="goToLink(this)" value="http://localhost:8080/login">Ya tienes una cuenta? Ingresa</button>
         <input class="registerButton" type="submit">
     </form>
 </div>
@@ -35,6 +36,15 @@
         border-radius: 4px;
         margin-bottom: 16px;
         border: 1px solid green;
+    }
+    .redirect{
+        margin-bottom: 5px;
+        background: none;
+        border: none;
+        color: white;
+    }
+    .redirect:hover{
+        text-decoration: underline;
     }
     .registerButton{
         width: 100%;
