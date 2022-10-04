@@ -13,13 +13,14 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import initializePassport from '../config/passport.config.js';
 import passport from 'passport';
+import configMinimist from '../utils/minimistArgs.js';
 
 const app = express();
 
-const port = 8080;
+const port = configMinimist.port;
 
 const server = app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Listening on port ${port}`)
 });
 
 const io = new Server(server);

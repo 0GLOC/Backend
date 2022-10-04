@@ -65,7 +65,9 @@ router.post('/products', uploader.single('file'), async (req, res) => {
 });
 
 router.get('/products',async (req, res) => {
-    let obj = JSON.parse(JSON.stringify(objects));
+    let products = await services.productsService.getAll();
+    let obj = JSON.parse(JSON.stringify(products));
+    console.log(obj)
     res.render('products', {obj})
 });
 
@@ -75,6 +77,18 @@ router.get('/loginFail',async (req, res) => {
 
 router.get('/registerFail',async (req, res) => {
     registerPass = 'success'
+});
+
+router.get('/info', async (req, res) => {
+    let argv = process.argv.slice(1);
+    let execPath = process.execPath;
+    let memory = process.memoryUsage.rss();
+    let platform = process.platform;
+    let version = process.version;
+    let execArg = process.execArgv;
+    let processId = process.pid;
+
+    res.render('info', {argv, execPath, memory, platform, version, execArg, processId});
 });
 
 export default router;

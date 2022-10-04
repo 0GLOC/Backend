@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
+import config from "../../../config/config.js";
+
+const url = config.mongo.MONGO_URL + "";
 
 export default class MongoDBContainerCarts{
     constructor(collection, schema){
         //Password is missing
-        mongoose.connect('mongodb+srv://0GLOC:gabimaidana15@ecommerce.ampswjk.mongodb.net/ecommerceDB')
+        mongoose.connect(url)
         this.model = mongoose.model(collection, schema);
     }
     getAll = async() => {
