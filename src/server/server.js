@@ -14,6 +14,7 @@ import MongoStore from "connect-mongo";
 import initializePassport from '../config/passport.config.js';
 import passport from 'passport';
 import configMinimist from '../utils/minimistArgs.js';
+import config from '../config/config.js';
 
 const app = express();
 
@@ -27,10 +28,12 @@ const io = new Server(server);
 
 const ContainerMessagesSaves = new MessageLibrary();
 
+const url = config.mongo.MONGO_URL + "";
+
 app.use(express.json());
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: `mongodb+srv://0GLOC:gabimaidana15@ecommerce.ampswjk.mongodb.net/ecommerceDB`,
+        mongoUrl: url,
         ttl: 60
     }),
     secret: "UserSessi0n",
