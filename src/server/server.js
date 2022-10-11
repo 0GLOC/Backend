@@ -18,10 +18,10 @@ import config from '../config/config.js';
 
 const app = express();
 
-const port = configMinimist.port;
+const PORT = process.env.PORT ||configMinimist.port;
 
-const server = app.listen(port, () => {
-    console.log(`Listening on port ${port}`)
+const server = app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`)
 });
 
 const io = new Server(server);
