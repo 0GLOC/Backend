@@ -1,3 +1,8 @@
+import logger from "../../../logger/logger.winston.js";
+
+let date = new Date();
+let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+
 export default class MemoryContainer{
     constructor(){
         this.data = []
@@ -53,7 +58,7 @@ export default class MemoryContainer{
             let realnum = object - 1;
             let objects = await this.getAll();
             objects.splice(realnum, 1,);
-            console.log('File removed');
+            logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
             console.log(error)
         }

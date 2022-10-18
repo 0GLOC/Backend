@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 import config from "../../../config/config.js";
+import logger from "../../../logger/logger.winston.js";
 
 const url = config.mongo.MONGO_URL + "";
+
+let date = new Date();
+let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
 
 export default class MongoDBContainerCarts{
     constructor(collection, schema){
@@ -47,7 +51,7 @@ export default class MongoDBContainerCarts{
     deleteById = async(object) => {
         try {
             let objects = await this.model.deleteMany({_id:object});
-            console.log('File removed');
+            logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
             console.log(error)
         }

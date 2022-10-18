@@ -1,6 +1,10 @@
 import * as fs from 'fs';
+import logger from '../../../logger/logger.winston.js';
 
 const path = 'src/files/carts.json'
+
+let date = new Date();
+let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
 
 class CartContainer {
     getAll = async() => {
@@ -92,7 +96,7 @@ class CartContainer {
             let carts = await this.getAll();
             const result = carts.filter(function (nickname) { return nickname.id !== realNumber });
             await fs.promises.writeFile(path, JSON.stringify(result.splice({}), null, '\t'));
-            console.log('File removed')
+            logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
             console.log(error)
         }

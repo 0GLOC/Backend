@@ -15,13 +15,17 @@ import initializePassport from '../config/passport.config.js';
 import passport from 'passport';
 import configMinimist from '../utils/minimistArgs.js';
 import config from '../config/config.js';
+import logger from '../logger/logger.winston.js';
 
 const app = express();
 
-const port = configMinimist.port;
+let date = new Date();
+let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
 
-const server = app.listen(port, () => {
-    console.log(`Listening on port ${port}`)
+const PORT = process.env.PORT ||configMinimist.port;
+
+const server = app.listen(PORT, () => {
+    logger.log('info', `${output} - Listening on port ${PORT} - http://localhost:${PORT}/`)
 });
 
 const io = new Server(server);
@@ -29,6 +33,20 @@ const io = new Server(server);
 const ContainerMessagesSaves = new MessageLibrary();
 
 const url = config.mongo.MONGO_URL + "";
+
+function error404(req, res, next) {
+    let error = new Error(),
+        locals = {
+            title: 'Error 404',
+            description: 'Not Found',
+            error: error
+        }
+    
+    res.render('error', locals);
+    if (error) {
+        logger.log('warn', `${output} - GET - http://localhost:${PORT}/nonexistentroute`);
+    }
+}
 
 app.use(express.json());
 app.use(session({
@@ -54,10 +72,11 @@ app.use('/api/products-test', testRouter);
 app.use('/api/session', sessionRouter);
 app.use('/', viewsRouter);
 app.use(express.static(__dirname+'/public'));
+app.use(error404);
 
 
 io.on('connection',socket => {
-    console.log("Socket connected")
+    logger.log('info', `${output} - Socket connected`)
 
     socket.broadcast.emit('newUser')
     socket.on('message', async data => {
