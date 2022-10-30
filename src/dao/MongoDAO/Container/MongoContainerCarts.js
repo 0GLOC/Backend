@@ -16,28 +16,29 @@ export default class MongoDBContainerCarts{
     getAll = async() => {
         try {
             let objects = await this.model.find();
-            console.log(objects)
+            logger.log('info',`${output} - POST - ${objects}`);
             return objects;
         } catch (error) {
-            console.log(error);
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
-    save = async(object) => {
+    save = async(object, user) => {
         try {
             let objects = await this.model.find();
             object.timestamp = Date.now();
             object.products = [];
+            object.user = user;
             let saveObject = await this.model.create(object);
-
+            logger.log('info',`${output} - POST - ${saveObject}`);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     replaceObject = async(object, position, positionCart) => {
         try {
-            let replace = await this.model.updateOne({}, {$pull: {products: {product: position}}});
+            let replace = await this.model.updateOne({_id:positionCart}, {$pull: {products: {product: position}}});
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     getById = async(object) => {
@@ -45,7 +46,15 @@ export default class MongoDBContainerCarts{
             let objects = await this.model.findOne({_id:object});
             return objects;
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
+        };
+    };
+    getByUser = async(object) => {
+        try {
+            let objects = await this.model.findOne({user:object});
+            return objects;
+        } catch (error) {
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     deleteById = async(object) => {
@@ -53,7 +62,7 @@ export default class MongoDBContainerCarts{
             let objects = await this.model.deleteMany({_id:object});
             logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
     refresh = async(position, object) => {
@@ -87,7 +96,7 @@ export default class MongoDBContainerCarts{
                 let set = await this.model.updateOne({_id:position},{$push:{products: {$each: [{product: object.product, quantity: object.quantity}]}}});
             }
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     showProducts = async(position) => {
@@ -100,7 +109,20 @@ export default class MongoDBContainerCarts{
 
             return findProduct;
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
+        };
+    };
+    showQuantity = async(position) => {
+        try {
+            let objects = await this.model.findOne({_id:position});
+            let onlyObject = objects.products;
+            let findQuantity = onlyObject.map(function(x) {
+                return x.quantity;
+            });        
+
+            return findQuantity;
+        } catch (error) {
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
 }

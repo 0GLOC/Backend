@@ -1,15 +1,10 @@
 <div class="CenterMessages">
     <h3 class="titleMessages">Centro de Mensajes</h3>
-    <label for="name" class="label-title">Nombre:</label>
-    <input id="name" class="form-control" type="text" placeholder="Escribe aquí tu nombre" autoComplete='off'/>
-    <label for="lastName" class="label-title">Apellido:</label>
-    <input id="lastName" class="form-control" type="text" placeholder="Escribe aquí tu apellido" autoComplete='off'/>
-    <label for="age" class="label-title">Edad:</label>
-    <input id="age" class="form-control" type="number" placeholder="Escribe aquí tu edad" autoComplete='off'/>
-    <label for="nickName" class="label-title">Apodo:</label>
-    <input id="nickName" class="form-control" type="text" placeholder="Escribe aquí tu apodo" autoComplete='off'/>
-    <label for="avatar" class="label-title">Avatar:</label>
-    <input id="avatar" class="form-control" type="text" placeholder="Escribe aquí la url de tu avatar" autoComplete='off'/>
+    <input id="name" class="form-control hideForm" type="text" placeholder="Escribe aquí tu nombre" autoComplete='off' value={{users.userName}}>
+    <input id="lastName" class="form-control hideForm" type="text" placeholder="Escribe aquí tu apellido" autoComplete='off' value={{users.name}}>
+    <input id="age" class="form-control hideForm" type="text" placeholder="Escribe aquí tu edad" autoComplete='off' value={{users.age}}>
+    <input id="nickName" class="form-control hideForm" type="text" placeholder="Escribe aquí tu apodo" autoComplete='off' value={{users.name}}>
+    <input id="avatar" class="form-control hideForm" type="text" placeholder="Escribe aquí la url de tu avatar" autoComplete='off' value={{users.avatar}}>
     <label for="chatBox" class="label-title">Mensaje:</label>
     <input id="chatBox" class="form-control" placeholder="Escribe aquí tu mensaje"/>
     <input type="submit" id="success" class="btn btn-success">
@@ -45,5 +40,8 @@
     }
     .History{
         margin-bottom: 30px;
+    }
+    .hideForm{
+        display: none;
     }
 </style>

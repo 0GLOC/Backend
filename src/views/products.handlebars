@@ -1,31 +1,151 @@
+<div class="username">
+    <img class="avatar" src={{avatar}} alt="avatar img" width="45px" height="45px"></a>
+    <h2>Bienvenido {{this.nameView}}!</h2>
+    <div class="cart-box">
+        <div class="cart-icon non-empty" id="iconCart"><img class="card-cart" src="https://cdn-icons-png.flaticon.com/512/1533/1533556.png" alt="cart image" width="45px" height="45px"></div>
+        <div class="whole-cart-widow hide" id="wholeCartDeployed">
+            <h2 class="cart-title">Carrito de compras</h2>
+            <div class="cart-wrapper">
+                <div class="cart-item">
+                    {{#each obj}}
+                    <img class="cart-card-img-top" src="{{HOST}}img/{{this.thumbnail}}" alt="Card image">
+                        <div class="details">
+                            <div class="divInfo">
+                                <h5 class="cart-card-title">{{this.title}}</h5>
+                                <button class="cross" type="button" onclick="fetchDelete(this)" value="{{this._id}}">x</button>
+                            </div>
+                            <div class="numbers">
+                                <p class="cart-card-quantity">Cantidad: ?</p>
+                                <p class="cart-card-text">Precio: ${{this.price}}</p>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="subtotal">Subtotal: $0.00</div>
+            <div class="checkout">Comprar</div>
+        </div>
+    </div>
+    <div>
+        <button class="button-exit" type="button" onclick="goToLink(this)" value="{{HOST}}login"><img src="https://cdn-icons-png.flaticon.com/512/6811/6811933.png" width="45px" height="45px"></button>
+        <button class="button-exit" id="buttonUsername" type="button" onclick="goToLink(this)" value="{{HOST}}logout"><img src="https://cdn-icons-png.flaticon.com/512/3277/3277596.png" width="45px" height="45px"></button>
+    </div>
+</div>
 <h1 class="title">Productos Disponibles:</h1>
-{{#each obj}}
-{{#if obj.lenght }}
+{{#each prods}}
+{{#if prods.lenght }}
     <p>No hay productos disponibles</p>
 {{else}}
     <div class="row mt-4">
         <div class="col-lg-6 offset-lg-3">
             <div class="card">
-                <img class="card-img-top" src="http://localhost:8080/img/{{this.thumbnail}}" alt="Card image">
+                <img class="card-img-top" src="{{HOST}}img/{{this.thumbnail}}" alt="Card image">
                 <h5 class="card-title">{{this.title}}</h5>
                 <p class="card-text">${{this.price}}</p>
+                <button class="card-button" type="button" onclick="fetchProducts(this)" value="{{this._id}}">Agregar al carrito</button>
             </div>
         </div>
     </div>
 {{/if}}
 {{/each}}
-<div class="col-lg-6 offset-lg-3">
-    <button class="botons" type="button" onclick="goToLink(this)" value="http://localhost:8080/">Añadir más productos</button>
-</div>
-<br>
+
+<script>
+    function reload(){
+        location.reload(true)
+    }
+
+    function recharge(){
+        setTimeout(reload, 1000)
+    }
+
+    function fetchDelete(link){
+        let productID = parseInt(link.value);
+        console.log(productID);
+
+        fetch(`/api/carts/{{realValue}}/products/${productID}`,{
+            method: 'DELETE',
+            headers:{
+                "Content-type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+
+        recharge()
+    }
+</script>
+
+<script>
+    let deleteID = {
+        "product": 0,
+        "quantity": 1
+    }
+
+    function reload(){
+        location.reload(true)
+    }
+
+    function recharge(){
+        setTimeout(reload, 1000)
+    }
+
+    function fetchProducts(link){
+        deleteID.product = parseInt(link.value);
+        console.log(deleteID);
+
+        fetch('/api/carts/{{realValue}}/products',{
+            method: 'POST',
+            body: JSON.stringify(deleteID),
+            headers:{
+                "Content-type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+
+        recharge()
+    }
+    
+</script>
+
+<script>
+    const cartIcon = document.getElementById('iconCart');
+    const wholeCartWindow = document.getElementById('wholeCartDeployed');
+    wholeCartWindow.inWindow = 0
+
+    cartIcon.addEventListener('click', () => {
+        if(wholeCartWindow.classList.contains('hide'))
+        wholeCartWindow.classList.remove('hide')
+    })
+
+    cartIcon.addEventListener('mouseleave', () => {
+        setTimeout( () => {
+            if(wholeCartWindow.inWindow === 0){
+                wholeCartWindow.classList.add('hide')
+            }
+        } ,500)
+    })
+
+    wholeCartWindow.addEventListener('mouseover', () => {
+        wholeCartWindow.inWindow = 1
+    })
+
+    wholeCartWindow.addEventListener('mouseleave', () => {
+        wholeCartWindow.inWindow = 0
+        wholeCartWindow.classList.add('hide')
+    })
+</script>
+
 <style>
     .title{
         text-align: center;
         font-family: 'calibri';
+        margin-top: 10px;
     }
     .card{
         text-align: center;
         padding: 10px;
+        position: relative;
     }
     .card:hover{
         transform: translateY(-2px);
@@ -34,19 +154,173 @@
     .card-text{
         color: green;
     }
-    .botons{
+    .card-button{
         width: 100%;
-        background: #133043;
+        background: #28a745;
         border: none;
         padding: 12px;
-        margin-top: 30px;
         color: white;
         font-size: 16px;
         border-radius: 10px;
         font-family: 'calibri';
     }
-    .botons:hover{
+    .card-button:hover{
         transform: translateY(-2px);
-        box-shadow: #0b1b25  0 5px 7px;
+        box-shadow: #343a40  0 5px 7px;
+    }
+    .divInfo{
+        display: flex;
+        justify-content: space-between;
+    }
+    .cross{
+        color: #fff;
+        background-color: red;
+        height: 20px;
+        font-size: 80%;
+        border: none;
+    }
+    .username{
+        background-color: #28a745;
+        color: white;
+        margin-top: 20px;
+        border-radius: 4px;
+        padding: 5px;
+        padding-left: 10px;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+    .avatar{
+        border-radius: 50%;
+    }
+    .cart-box{
+        width: 35% !important;
+        left: 55%;
+        top: -7%;
+        position: absolute;
+        color: black;
+        padding: 10px 20px;
+    }
+    .cart-icon{
+        text-align: right;
+    }
+    .cart-icon:hover{
+        transform: translateY(-2px);
+        cursor: pointer;
+    }
+    .cart-wrapper{
+        overflow-y: auto;
+        max-height: 350px;
+    }
+    .subtotal{
+        text-align: right;
+        padding: 5%;
+    }
+    .checkout, .view-cart{
+        width: 95%;
+        text-align: center;
+        cursor: pointer;
+        background-color: #28a745;
+        font-size: large;
+        color: #fff;
+        margin: 10px auto;
+        padding: 10px 15px;
+    }
+    .checkout:hover, .view-cart:hover{
+        transform: translateY(-2px);
+    }
+    .view-cart{
+        background-color: #fff;
+        border: 2px solid #343a40;
+        color: #343a40;
+    }
+    .cart-title{
+        font-size: x-large;
+        padding: 15px 10px;
+        text-align: center;
+        color: #28a745;
+    }
+    .cart-item{
+        display: grid;
+        grid-template-columns: 4fr 5fr;
+        padding: 5% 2%;
+        border-bottom: solid 1px lightgray;
+    }
+    .details{
+        padding-left: 10%;
+    }
+    .details h5{
+        text-align: left;
+        font-size: 15px;
+    }
+    .cart-item .numbers{
+        text-align: right;
+        font-size: 13px;
+    }
+    .cart-item img{
+        width: 140px;
+        height: 80px;
+    }
+    .cart-card-quantity{
+        margin-top: 10%;
+    }
+    .cart-card-text{
+        margin-top: -10%;
+    }
+    .whole-cart-widow{
+        border: solid lightgray 1px;
+        border-top: none;
+        position: fixed;
+        top: 8.2vh;
+        background-color: #fff;
+        margin-left: 12%;
+    }
+    .button-exit{
+        background: none;
+        border: none;
+        padding-right: 10px;
+    }
+    .button-exit:hover{
+        transform: translateY(-2px);
+    }
+    .form-register{
+        margin-top: 30px;
+        padding-bottom: 30px;
+        border-bottom: 0.5px black solid;
+    }
+    #titleForm{
+        padding-bottom: 20px;
+        font-size: 40px;
+    }
+    .form-control{
+        margin-bottom: 30px;
+        padding: 3px;
+        padding-left: 10px;
+    }
+    .table.table-striped.table-dark{
+        margin-top: 30px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    ::-webkit-scrollbar {
+    display: none;
+    }
+    .hide{
+        display: none;
+    }
+    .non-empty::after{
+        content: '{{total}}';
+        font-size: 20px;
+        width: 30px;
+        display: inline-block;
+        text-align: center;
+        position: relative;
+        top: -12px;
+        right: 5%;
+        background-color: #fff;
+        border-radius: 50%;
     }
 </style>

@@ -26,7 +26,7 @@ socket.on('listener', function(data){
     `   <tr>
         <td>${data.title}</td>
         <td>$${data.price}</td>
-        <td><img class="img-top" id="qcyo" src="http://localhost:8080/img/${data.file}" alt="Card image" width="150px"></td>
+        <td><img class="img-top" id="qcyo" src="https://www.citypng.com/public/uploads/preview/-31622652101fnmwrcny0a.png" alt="Card image" width="25px"></td>
         </tr>`
 
     const tableListener = document.getElementById('tableListener').style.display = 'block';

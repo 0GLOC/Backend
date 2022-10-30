@@ -17,7 +17,7 @@ class CartContainer {
                 return [];
             }
         } catch (error) {
-            console.log(error);
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
     save = async(object) => {
@@ -38,7 +38,7 @@ class CartContainer {
             };
 
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     replaceObject = async(object, position, positionCart) => {
@@ -63,14 +63,14 @@ class CartContainer {
             carts.splice(sumId, 1, objectOfArray);
             await this.replaceProduct(carts);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     replaceProduct = async(object) => {
         try {
             await fs.promises.writeFile(path, JSON.stringify(object, null, '\t'));
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     getById = async(object) => {
@@ -87,7 +87,7 @@ class CartContainer {
                 return result
             };
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     deleteById = async(object) => {
@@ -98,7 +98,7 @@ class CartContainer {
             await fs.promises.writeFile(path, JSON.stringify(result.splice({}), null, '\t'));
             logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
     showProducts = async(position) => {
@@ -110,10 +110,9 @@ class CartContainer {
                 return x.product;
             });
 
-            console.log(findProduct);
             return findProduct;
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     refresh = async(position, object) => {
@@ -147,7 +146,21 @@ class CartContainer {
             carts.splice(sumId, 1, objectOfArray);
             await this.replaceProduct(carts);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
+        };
+    };
+    showQuantity = async(position) => {
+        try {
+            let CartById = await this.getById(position);
+            let objectOfArray = CartById[0];
+            let productsCheck = objectOfArray.products;
+            let findProduct = productsCheck.map(function(x) {
+                return x.quantity;
+            });
+
+            return findProduct;
+        } catch (error) {
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
 };

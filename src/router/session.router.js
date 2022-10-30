@@ -1,9 +1,10 @@
 import { Router } from "express";
 import passport from 'passport';
+import uploader from "../utils/utils.js";
 
 const router = Router();
 
-router.post('/register', passport.authenticate('register', {failureRedirect: '/registerFail'}), async (req, res) => {
+router.post('/register', uploader.single('file'), passport.authenticate('register', {failureRedirect: '/registerFail'}), async (req, res) => {
     const {name, password} = req.body;
 
     req.session.user = {
@@ -24,6 +25,5 @@ router.post('/login', passport.authenticate('login', {failureRedirect: '/loginFa
 
     res.send({status: "success", payload: req.session.user});
 });
-
 
 export default router;

@@ -1,13 +1,17 @@
 import { Router } from "express";
 import services from "../dao/config.js";
+import userService from "../public/js/user.js";
 
 const router = Router();
 
 //Add cart and return id
 router.post('/', async (req, res) => {
     let cart = {};
+    let users = await userService.find().sort({_id:-1}).limit(1);
+    let extract = users[0];
+    let extractName = extract.name;
 
-    const saveCart = await services.cartService.save(cart);
+    const saveCart = await services.cartService.save(cart, extractName);
     const carts = await services.cartService.getAll();
 
     let returnId = carts[carts.length - 1].id;
@@ -94,9 +98,9 @@ router.post('/:cid/products', async (req, res) => {
 //Delete product in cart by id
 router.delete('/:cid/products/:pid', async (req, res) => {
     let idSearchCart = req.params.cid;
-    let realNumberCart = parseInt(idSearchCart);
     let idSearchProduct = req.params.pid;
     let realNumberProduct = parseInt(idSearchProduct);
+
 
     //Check if the id exist
     let carts = await services.cartService.getAll();

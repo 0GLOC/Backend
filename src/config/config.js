@@ -8,6 +8,9 @@ dotenv.config({
 });
 
 export default {
+    host: {
+        HOST_URL:process.env.HOST_URL
+    },
     mongo: {
         MONGO_URL:process.env.MONGO_URL,
         MONGO_USER:process.env.MONGO_USER,

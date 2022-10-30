@@ -1,0 +1,14 @@
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'uuu' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'uuu' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'dudade' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'yori' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'kkk' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'alfonso@hotmail.com' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'alfonso@hotmail.com' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'alfonso@hotmail.com' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'alfonso@hotmail.com' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ extractName: 'alfonso@hotmail.com' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ realName: 'alfonso@hotmail.com' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to string failed for value \"{ user: 'alfonso@hotmail.com' }\" (type Object) at path \"user\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to ObjectId failed for value \"{ user: 'alfonso@hotmail.com' }\" (type Object) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"29/10/2022 - POST - CastError: Cast to ObjectId failed for value \"{ user: 'alfonso@hotmail.com' }\" (type Object) at path \"_id\" for model \"carts\""}

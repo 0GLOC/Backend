@@ -1,6 +1,32 @@
 <div class="username">
+    <img class="avatar" src={{avatar}} alt="avatar img" width="45px" height="45px"></a>
     <h2>Bienvenido {{this.nameView}}!</h2>
-    <button class="btn btn-dark" id="buttonUsername" type="button" onclick="goToLink(this)" value="http://localhost:8080/logout">Desloguear</button>
+    <div class="cart-box">
+        <div class="cart-icon non-empty" id="iconCart"><img class="card-cart" src="https://cdn-icons-png.flaticon.com/512/1533/1533556.png" alt="cart image" width="45px" height="45px"></div>
+        <div class="whole-cart-widow hide" id="wholeCartDeployed">
+            <h2 class="cart-title">Carrito de compras</h2>
+            <div class="cart-wrapper">
+                <div class="cart-item">
+                    {{#each obj}}
+                    <img class="cart-card-img-top" src="{{HOST}}img/{{this.thumbnail}}" alt="Card image">
+                        <div class="details">
+                            <div class="divInfo">
+                                <h5 class="cart-card-title">{{this.title}}</h5>
+                                <button class="cross" type="button" onclick="fetchDeleteForm(this)" value="{{this._id}}">x</button>
+                            </div>
+                            <div class="numbers">
+                                <p class="cart-card-quantity">Cantidad: ?</p>
+                                <p class="cart-card-text">Precio: ${{this.price}}</p>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="subtotal">Total: $0.00</div>
+            <div class="checkout">Comprar</div>
+        </div>
+    </div>
+    <button class="button-exit" id="buttonUsername" type="button" onclick="goToLink(this)" value="{{HOST}}logout"><img src="https://cdn-icons-png.flaticon.com/512/3277/3277596.png" width="45px" height="45px"></button>
 </div>
 <form class="form-register" id="form-id">
     <h4 id="titleForm">Añadir un producto</h4>
@@ -8,7 +34,7 @@
     <input class="form-control" type="number" name="price" id="price" placeholder="Ingrese el Precio" autoComplete='off'/>
     <input class="form-control" type="file" name="file" id="file" placeholder="Ingrese su imagen" autoComplete='off'/>
     <input class="btn btn-success" type="submit" value="Añadir" id="send">
-    <button class="btn btn-dark" type="button" onclick="goToLink(this)" value="http://localhost:8080/products">Ver los productos</button>
+    <button class="btn btn-dark" type="button" onclick="goToLink(this)" value="{{HOST}}products">Ver los productos</button>
 </form>
 
 <div id="tableListener">
@@ -45,6 +71,60 @@
 
 </script>
 
+<script>
+    function reload(){
+        location.reload(true)
+    }
+
+    function recharge(){
+        setTimeout(reload, 1000)
+    }
+
+    function fetchDeleteForm(link){
+        let deleteID = parseInt(link.value);
+        console.log(deleteID);
+
+        fetch(`/api/carts/{{realValue}}/products/${deleteID}`,{
+            method: 'DELETE',
+            headers:{
+                "Content-type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+
+        recharge()
+    }
+</script>
+
+<script>
+    const cartIcon = document.getElementById('iconCart');
+    const wholeCartWindow = document.getElementById('wholeCartDeployed');
+    wholeCartWindow.inWindow = 0
+
+    cartIcon.addEventListener('click', () => {
+        if(wholeCartWindow.classList.contains('hide'))
+        wholeCartWindow.classList.remove('hide')
+    })
+
+    cartIcon.addEventListener('mouseleave', () => {
+        setTimeout( () => {
+            if(wholeCartWindow.inWindow === 0){
+                wholeCartWindow.classList.add('hide')
+            }
+        } ,500)
+    })
+
+    wholeCartWindow.addEventListener('mouseover', () => {
+        wholeCartWindow.inWindow = 1
+    })
+
+    wholeCartWindow.addEventListener('mouseleave', () => {
+        wholeCartWindow.inWindow = 0
+        wholeCartWindow.classList.add('hide')
+    })
+</script>
+
 <style>
     .username{
         background-color: #28a745;
@@ -55,11 +135,111 @@
         padding-left: 10px;
         display: flex;
         justify-content: space-between;
+        position: relative;
     }
-    #buttonUsername{
-        margin-right: 10px;
-        margin-top: 5px;
-        margin-bottom: 5px;
+    .divInfo{
+        display: flex;
+        justify-content: space-between;
+    }
+    .cross{
+        color: #fff;
+        background-color: red;
+        height: 20px;
+        font-size: 80%;
+        border: none;
+    }
+    .avatar{
+        border-radius: 50%;
+    }
+    .cart-box{
+        width: 35% !important;
+        left: 61%;
+        top: -7%;
+        position: absolute;
+        color: black;
+        padding: 10px 20px;
+    }
+    .cart-icon{
+        text-align: right;
+    }
+    .cart-icon:hover{
+        transform: translateY(-2px);
+        cursor: pointer;
+    }
+    .cart-wrapper{
+        overflow-y: auto;
+        max-height: 350px;
+    }
+    .subtotal{
+        text-align: right;
+        padding: 5%;
+    }
+    .checkout, .view-cart{
+        width: 95%;
+        text-align: center;
+        cursor: pointer;
+        background-color: #28a745;
+        font-size: large;
+        color: #fff;
+        margin: 10px auto;
+        padding: 10px 15px;
+    }
+    .checkout:hover, .view-cart:hover{
+        transform: translateY(-2px);
+    }
+    .view-cart{
+        background-color: #fff;
+        border: 2px solid #343a40;
+        color: #343a40;
+    }
+    .cart-title{
+        font-size: x-large;
+        padding: 15px 10px;
+        text-align: center;
+        color: #28a745;
+    }
+    .cart-item{
+        display: grid;
+        grid-template-columns: 4fr 5fr;
+        padding: 5% 2%;
+        border-bottom: solid 1px lightgray;
+    }
+    .details{
+        padding-left: 10%;
+    }
+    .details h5{
+        text-align: left;
+        font-size: 15px;
+    }
+    .cart-item .numbers{
+        text-align: right;
+        font-size: 13px;
+    }
+    .cart-item img{
+        width: 140px;
+        height: 80px;
+    }
+    .cart-card-quantity{
+        margin-top: 10%;
+    }
+    .cart-card-text{
+        margin-top: -10%;
+    }
+    .whole-cart-widow{
+        border: solid lightgray 1px;
+        border-top: none;
+        position: fixed;
+        top: 8.2vh;
+        background-color: #fff;
+        margin-left: 2%;
+    }
+    .button-exit{
+        background: none;
+        border: none;
+        padding-right: 10px;
+    }
+    .button-exit:hover{
+        transform: translateY(-2px);
     }
     .form-register{
         margin-top: 30px;
@@ -82,5 +262,23 @@
     input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+    }
+    ::-webkit-scrollbar {
+    display: none;
+    }
+    .hide{
+        display: none;
+    }
+    .non-empty::after{
+        content: '{{total}}';
+        font-size: 20px;
+        width: 30px;
+        display: inline-block;
+        text-align: center;
+        position: relative;
+        top: -9px;
+        right: 6%;
+        background-color: #fff;
+        border-radius: 50%;
     }
 </style>

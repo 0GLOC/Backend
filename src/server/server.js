@@ -44,7 +44,7 @@ function error404(req, res, next) {
     
     res.render('error', locals);
     if (error) {
-        logger.log('warn', `${output} - GET - http://localhost:${PORT}/nonexistentroute`);
+        //logger.log('warn', `${output} - GET - http://localhost:${PORT}/nonexistentroute`);
     }
 }
 
@@ -52,7 +52,7 @@ app.use(express.json());
 app.use(session({
     store: MongoStore.create({
         mongoUrl: url,
-        ttl: 60
+        ttl: 300
     }),
     secret: "UserSessi0n",
     resave: false,
@@ -74,7 +74,6 @@ app.use('/', viewsRouter);
 app.use(express.static(__dirname+'/public'));
 app.use(error404);
 
-
 io.on('connection',socket => {
     logger.log('info', `${output} - Socket connected`)
 
@@ -83,7 +82,7 @@ io.on('connection',socket => {
         const newObject = {author: data, text: data.text}
         const saveObject = await services.messagesService.save(newObject);
         let read = await ContainerMessagesSaves.readFile();
-        console.log('Denormalized', read)
+        logger.log('info', `${output} - Denormalized, ${read}`)
         let arr = [];
         arr.push(read)
         let messages = arr[0].comments;

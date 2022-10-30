@@ -18,7 +18,7 @@ export default class MongoDBContainer{
             let objects = await this.model.find();
             return objects;
         } catch (error) {
-            console.log(error);
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
     save = async(object) => {
@@ -38,14 +38,14 @@ export default class MongoDBContainer{
                 await this.model.create(object);
             };
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     replaceObject = async(position, object) => {
         try {
             await this.model.updateOne({_id: position}, {$set: {title: object.title, price: object.price, thumbnail: object.thumbnail, descripcion: object.descripcion, code: object.code, timestamp: object.timestamp}});
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     getById = async(object) => {
@@ -53,7 +53,7 @@ export default class MongoDBContainer{
             let objects = await this.model.findOne({_id:object});
             return objects;
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     deleteById = async(object) => {
@@ -61,7 +61,7 @@ export default class MongoDBContainer{
             let objects = await this.model.deleteOne({_id:object});
             logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
 }

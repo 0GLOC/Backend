@@ -26,8 +26,7 @@ export default class MessageLibrary {
             const denormalizedData = denormalize(normalizedData.result, article, normalizedData.entities);
             return denormalizedData;
         } catch (error) {
-            console.log(error);
-            logger.log('error', `${output} - ReadMessage.js/readFile`);
+            logger.log('error', `${output} - ${error}`);
         }
     }; 
 };

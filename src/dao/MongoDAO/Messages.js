@@ -8,7 +8,6 @@ const messagesSchema = mongoose.Schema({
         author: {
             id: String,
             name: String,
-            lastName: String,
             age: Number,
             nickname: String,
             avatar: String,

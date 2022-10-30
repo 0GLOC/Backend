@@ -1,24 +1,41 @@
 import { Router } from "express";
 import uploader from "../utils/utils.js";
 import services from "../dao/config.js";
+import userService from "../public/js/user.js";
+import config from "../config/config.js";
 
 const router = Router();
 
 let objects = await services.productsService.getAll();
 
+let HOST = config.host.HOST_URL + '';
 let loginpass = '';
 let registerPass = '';
 
 router.get('/',async (req, res) => {
     if (registerPass === 'success') {
-        res.render('failRegister')
+        res.render('failRegister', {HOST})
         registerPass = '';
     } else {
         if (req.session.user) {
             let nameView = req.session.user.name
-            res.render('form', {objects, nameView});
+            let carts = await services.cartService.getByUser(nameView);
+            let extractID = carts._id;
+            console.log(extractID);
+            let realValue = extractID.valueOf();
+            let processProducts = await services.cartService.showProducts(realValue);
+            let arrProducts = [];
+            for(let i=0; i<processProducts.length; i++){
+                let objects = await services.productsService.getById(processProducts[i]);
+                arrProducts.push(objects);
+            }
+            let searchAvatar = await userService.find({name:nameView});
+            let avatar = searchAvatar[0].avatar;
+            let showQuantity = await services.cartService.showQuantity(realValue);
+            let total = showQuantity.reduce((a, b) => a + b, 0);
+            res.render('form', {nameView, arrProducts, avatar, total, HOST});
         } else {
-            res.render('register');
+            res.render('register', {HOST});
         }
     }
 });
@@ -30,7 +47,24 @@ router.get('/login',async (req, res) => {
     } else {
         if (req.session.user) {
             let nameView = req.session.user.name
-            res.render('form', {objects, nameView});
+            let carts = await services.cartService.getByUser(nameView);
+            let extractID = carts._id;
+            let realValue = extractID.valueOf();
+            console.log(nameView);
+            let processProducts = await services.cartService.showProducts(realValue);
+            let arrProducts = [];
+            let showQuantity = await services.cartService.showQuantity(realValue);
+            let total = showQuantity.reduce((a, b) => a + b, 0);
+            for(let i=0; i<processProducts.length; i++){
+                let objects = await services.productsService.getById(processProducts[i]);
+                arrProducts.push(objects);
+            }
+            let searchAvatar = await userService.find({name:nameView});
+            let user = searchAvatar[0];
+            let users = JSON.parse(JSON.stringify(user));
+            let avatar = searchAvatar[0].avatar;
+            let obj = JSON.parse(JSON.stringify(arrProducts));
+            res.render('form', {nameView, avatar, total, showQuantity, obj, HOST, users, realValue});
         } else {
             res.render('login');
         }
@@ -51,8 +85,7 @@ router.get('/logout', async (req, res) => {
 router.post('/products', uploader.single('file'), async (req, res) => {
     let product = req.body;
     product.thumbnail = req.file.filename;
-    console.log(product)
-
+    
     if(!product.title) return res.status(400).send({status:"error", message:"Invalid Title"})
     if(!product.price) return res.status(400).send({status:"error", message:"Invalid Price"})
 
@@ -65,10 +98,37 @@ router.post('/products', uploader.single('file'), async (req, res) => {
 });
 
 router.get('/products',async (req, res) => {
-    let products = await services.productsService.getAll();
-    let obj = JSON.parse(JSON.stringify(products));
-    console.log(obj)
-    res.render('products', {obj})
+    if (loginpass === 'success') {
+        res.render('failLogin')
+        loginpass = '';
+    } else if (registerPass === 'success') {
+        res.render('failRegister', {HOST})
+        registerPass = '';
+    }
+     else {
+        if (req.session.user) {
+            let nameView = req.session.user.name
+            let carts = await services.cartService.getByUser(nameView);
+            let extractID = carts._id;
+            let realValue = extractID.valueOf();
+            let processProducts = await services.cartService.showProducts(realValue);
+            let arrProducts = [];
+            for(let i=0; i<processProducts.length; i++){
+                let objects = await services.productsService.getById(processProducts[i]);
+                arrProducts.push(objects);
+            }
+            let obj = JSON.parse(JSON.stringify(arrProducts));
+            let searchAvatar = await userService.find({name:nameView});
+            let avatar = searchAvatar[0].avatar;
+            let showQuantity = await services.cartService.showQuantity(realValue);
+            let total = showQuantity.reduce((a, b) => a + b, 0);
+            let products = await services.productsService.getAll();
+            let prods = JSON.parse(JSON.stringify(products));
+            res.render('products', {nameView, obj, avatar, realValue, total, HOST, prods});
+        } else {
+            res.render('login', {HOST});
+        }
+    }
 });
 
 router.get('/loginFail',async (req, res) => {
@@ -78,6 +138,14 @@ router.get('/loginFail',async (req, res) => {
 router.get('/registerFail',async (req, res) => {
     registerPass = 'success'
 });
+
+router.get('/wtv',async (req, res) => {
+    let products = await services.productsService.getAll();
+    let obj = JSON.parse(JSON.stringify(products));
+    console.log(obj)
+    res.render('products', {obj})
+});
+
 
 router.get('/info', async (req, res) => {
     let argv = process.argv.slice(1);

@@ -11,7 +11,7 @@ export default class MemoryContainerCarts{
         try {
             return this.data;
         } catch (error) {
-            console.log(error);
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
     save = async(object) => {
@@ -30,7 +30,7 @@ export default class MemoryContainerCarts{
             };
 
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     replaceObject = async(object, position, positionCart) => {
@@ -55,14 +55,14 @@ export default class MemoryContainerCarts{
             carts.splice(sumId, 1, objectOfArray);
             await this.replaceProduct(carts);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     replaceProduct = async(object) => {
         try {
             this.data.push(object);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     getById = async(object) => {
@@ -71,7 +71,7 @@ export default class MemoryContainerCarts{
             const result = objects.filter(function (nickname) { return nickname.id == object });
             return result
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     deleteById = async(object) => {
@@ -82,7 +82,7 @@ export default class MemoryContainerCarts{
             objects.splice(realnum, 1,);
             logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
     showProducts = async(position) => {
@@ -94,10 +94,9 @@ export default class MemoryContainerCarts{
                 return x.product;
             });
 
-            console.log(findProduct);
             return findProduct;
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     refresh = async(position, object) => {
@@ -131,7 +130,22 @@ export default class MemoryContainerCarts{
             carts.splice(sumId, 1, objectOfArray);
             await this.replaceProduct(carts);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
+        };
+        
+    };
+    showQuantity = async(position) => {
+        try {
+            let CartById = await this.getById(position);
+            let objectOfArray = CartById[0];
+            let productsCheck = objectOfArray.products;
+            let findProduct = productsCheck.map(function(x) {
+                return x.quantity;
+            });
+
+            return findProduct;
+        } catch (error) {
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
 }

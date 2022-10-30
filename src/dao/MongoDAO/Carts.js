@@ -3,6 +3,7 @@ import MongoDBContainerCarts from "./Container/MongoContainerCarts.js";
 
 const collection = 'carts';
 const cartsSchema = mongoose.Schema({
+    user: String,
     timestamp: Number,
     products: [{
         product: Number,
