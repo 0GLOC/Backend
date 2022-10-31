@@ -44,9 +44,22 @@ router.get('/',async (req, res) => {
                 let objects = (carts.products[i].quantity * arrPrices[i]);
                 sumQuantityProdcut.push(objects);
             }
+            let newObj = arrProducts.map(fruit => ({
+                _id: fruit._id,
+                title: fruit.title,
+                price: fruit.price,
+                thumbnail: fruit.thumbnail,
+                descripcion: fruit.descripcion,
+                code: fruit.code,
+                timestamp: fruit.timestamp,
+                quantity: showQuantity[0]
+            }));
+            for(let i=0; i< newObj.length; i++){
+                newObj[i].quantity = showQuantity[i];
+            }
             let totalPrice = sumQuantityProdcut.reduce((a, b) => a + b, 0);
             let obj = JSON.parse(JSON.stringify(arrProducts));
-            res.render('form', {nameView, arrProducts, avatar, total, HOST, realValue, totalPrice, showQuantity, obj, users});
+            res.render('form', {nameView, arrProducts, avatar, total, HOST, realValue, totalPrice, showQuantity, newObj, users});
         } else {
             res.render('register', {HOST});
         }
@@ -63,7 +76,6 @@ router.get('/login',async (req, res) => {
             let carts = await services.cartService.getByUser(nameView);
             let extractID = carts._id;
             let realValue = extractID.valueOf();
-            console.log(nameView);
             let processProducts = await services.cartService.showProducts(realValue);
             let arrProducts = [];
             let showQuantity = await services.cartService.showQuantity(realValue);
@@ -87,8 +99,22 @@ router.get('/login',async (req, res) => {
                 let objects = (carts.products[i].quantity * arrPrices[i]);
                 sumQuantityProdcut.push(objects);
             }
+            let newObj = arrProducts.map(fruit => ({
+                _id: fruit._id,
+                title: fruit.title,
+                price: fruit.price,
+                thumbnail: fruit.thumbnail,
+                descripcion: fruit.descripcion,
+                code: fruit.code,
+                timestamp: fruit.timestamp,
+                quantity: showQuantity[0]
+            }));
+            for(let i=0; i< newObj.length; i++){
+                newObj[i].quantity = showQuantity[i];
+            }
             let totalPrice = sumQuantityProdcut.reduce((a, b) => a + b, 0);
-            res.render('form', {nameView, avatar, total, showQuantity, obj, HOST, users, realValue, totalPrice});
+            console.log(newObj);
+            res.render('form', {nameView, avatar, total, showQuantity, newObj, HOST, users, realValue, totalPrice});
         } else {
             res.render('login');
         }
@@ -158,8 +184,21 @@ router.get('/products',async (req, res) => {
                 let objects = (carts.products[i].quantity * arrPrices[i]);
                 sumQuantityProdcut.push(objects);
             }
+            let newObj = arrProducts.map(fruit => ({
+                _id: fruit._id,
+                title: fruit.title,
+                price: fruit.price,
+                thumbnail: fruit.thumbnail,
+                descripcion: fruit.descripcion,
+                code: fruit.code,
+                timestamp: fruit.timestamp,
+                quantity: showQuantity[0]
+            }));
+            for(let i=0; i< newObj.length; i++){
+                newObj[i].quantity = showQuantity[i];
+            }
             let totalPrice = sumQuantityProdcut.reduce((a, b) => a + b, 0);
-            res.render('products', {nameView, obj, avatar, realValue, total, HOST, prods, totalPrice});
+            res.render('products', {nameView, newObj, avatar, realValue, total, HOST, prods, totalPrice});
         } else {
             res.render('login', {HOST});
         }

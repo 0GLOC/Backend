@@ -7,7 +7,7 @@
             <h2 class="cart-title">Carrito de compras</h2>
             <div class="cart-wrapper">
                 <div class="cart-item">
-                    {{#each obj}}
+                    {{#each newObj}}
                     <img class="cart-card-img-top" src="{{HOST}}img/{{this.thumbnail}}" alt="Card image">
                         <div class="details">
                             <div class="divInfo">
@@ -15,14 +15,14 @@
                                 <button class="cross" type="button" onclick="fetchDeleteForm(this)" value="{{this._id}}">x</button>
                             </div>
                             <div class="numbers">
-                                <p class="cart-card-quantity">Cantidad: ?</p>
+                                <p class="cart-card-quantity">Cantidad: {{this.quantity}}</p>
                                 <p class="cart-card-text">Precio: ${{this.price}}</p>
                             </div>
                         </div>
                     {{/each}}
                 </div>
             </div>
-            {{#if obj}}
+            {{#if newObj}}
                 <div class="subtotal">Total: ${{totalPrice}}</div>
                 <button class="checkout" onclick="fetchBuy(this)">Comprar</button>
             {{else}}
