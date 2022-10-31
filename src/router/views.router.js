@@ -113,7 +113,7 @@ router.get('/login',async (req, res) => {
                 newObj[i].quantity = showQuantity[i];
             }
             let totalPrice = sumQuantityProdcut.reduce((a, b) => a + b, 0);
-            console.log(newObj);
+            
             res.render('form', {nameView, avatar, total, showQuantity, newObj, HOST, users, realValue, totalPrice});
         } else {
             res.render('login');
@@ -216,7 +216,7 @@ router.get('/registerFail',async (req, res) => {
 router.get('/wtv',async (req, res) => {
     let products = await services.productsService.getAll();
     let obj = JSON.parse(JSON.stringify(products));
-    console.log(obj)
+    
     res.render('products', {obj})
 });
 

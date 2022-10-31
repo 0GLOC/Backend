@@ -26,7 +26,7 @@
                 <div class="subtotal">Total: ${{totalPrice}}</div>
                 <button class="checkout" onclick="fetchBuy(this)">Comprar</button>
             {{else}}
-                <p class="empty">Todavia no se ha agregado ningun producto</p>
+                <p class="empty">Carrito vacío</p>
             {{/if}}
         </div>
     </div>
@@ -52,14 +52,10 @@
     </div>
 {{/if}}
 {{/each}}
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function reload(){
         location.reload(true)
-    }
-
-    function recharge(){
-        setTimeout(reload, 3000)
     }
 
     function fetchBuy(link){
@@ -72,7 +68,18 @@
         .then(res => res.json())
         .then(data => console.log(data))
 
-        recharge()
+        Swal.fire({
+            title: 'Felicitaciones!',
+            text: 'Su pedido de compra fue enviado con exito!',
+            icon: 'success',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+            
+        }).then(okay => {
+            if(okay){
+                reload()
+            }
+        })
     }
 </script>
 
@@ -166,6 +173,7 @@
 <style>
     .empty{
         padding: 10px;
+        text-align: right;
     }
     .title{
         text-align: center;
@@ -222,6 +230,10 @@
     }
     .avatar{
         border-radius: 50%;
+        transition: transform .2s;
+    }
+    .avatar:hover{
+        transform: scale(1.5)
     }
     .cart-box{
         width: 35% !important;
