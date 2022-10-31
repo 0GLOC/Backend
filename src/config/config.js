@@ -8,6 +8,10 @@ dotenv.config({
 });
 
 export default {
+    gmail: {
+        GMAIL_USER:process.env.GMAIL_USER,
+        GMAIL_PASSWORLD:process.env.GMAIL_PASSWORLD
+    },
     host: {
         HOST_URL:process.env.HOST_URL
     },

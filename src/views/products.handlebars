@@ -22,8 +22,12 @@
                     {{/each}}
                 </div>
             </div>
-            <div class="subtotal">Subtotal: $0.00</div>
-            <div class="checkout">Comprar</div>
+            {{#if obj}}
+                <div class="subtotal">Total: ${{totalPrice}}</div>
+                <button class="checkout" onclick="fetchBuy(this)">Comprar</button>
+            {{else}}
+                <p class="empty">Todavia no se ha agregado ningun producto</p>
+            {{/if}}
         </div>
     </div>
     <div>
@@ -33,7 +37,7 @@
 </div>
 <h1 class="title">Productos Disponibles:</h1>
 {{#each prods}}
-{{#if prods.lenght }}
+{{#if prods }}
     <p>No hay productos disponibles</p>
 {{else}}
     <div class="row mt-4">
@@ -48,6 +52,29 @@
     </div>
 {{/if}}
 {{/each}}
+
+<script>
+    function reload(){
+        location.reload(true)
+    }
+
+    function recharge(){
+        setTimeout(reload, 3000)
+    }
+
+    function fetchBuy(link){
+        fetch(`/api/mail/{{this.nameView}}`,{
+            method: 'POST',
+            headers:{
+                "Content-type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+
+        recharge()
+    }
+</script>
 
 <script>
     function reload(){
@@ -137,6 +164,9 @@
 </script>
 
 <style>
+    .empty{
+        padding: 10px;
+    }
     .title{
         text-align: center;
         font-family: 'calibri';
@@ -224,7 +254,10 @@
         font-size: large;
         color: #fff;
         margin: 10px auto;
+        margin-left: 5px;
         padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
     }
     .checkout:hover, .view-cart:hover{
         transform: translateY(-2px);

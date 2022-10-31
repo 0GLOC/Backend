@@ -22,8 +22,12 @@
                     {{/each}}
                 </div>
             </div>
-            <div class="subtotal">Total: $0.00</div>
-            <div class="checkout">Comprar</div>
+            {{#if obj}}
+                <div class="subtotal">Total: ${{totalPrice}}</div>
+                <button class="checkout" onclick="fetchBuy(this)">Comprar</button>
+            {{else}}
+                <p class="empty">Todavia no se ha agregado ningun producto</p>
+            {{/if}}
         </div>
     </div>
     <button class="button-exit" id="buttonUsername" type="button" onclick="goToLink(this)" value="{{HOST}}logout"><img src="https://cdn-icons-png.flaticon.com/512/3277/3277596.png" width="45px" height="45px"></button>
@@ -77,12 +81,35 @@
     }
 
     function recharge(){
+        setTimeout(reload, 3000)
+    }
+
+    function fetchBuy(link){
+        fetch(`/api/mail/{{this.nameView}}`,{
+            method: 'POST',
+            headers:{
+                "Content-type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+
+        recharge()
+    }
+</script>
+
+
+<script>
+    function reload(){
+        location.reload(true)
+    }
+
+    function recharge(){
         setTimeout(reload, 1000)
     }
 
     function fetchDeleteForm(link){
         let deleteID = parseInt(link.value);
-        console.log(deleteID);
 
         fetch(`/api/carts/{{realValue}}/products/${deleteID}`,{
             method: 'DELETE',
@@ -126,6 +153,9 @@
 </script>
 
 <style>
+    .empty{
+        padding: 10px;
+    }
     .username{
         background-color: #28a745;
         color: white;
@@ -182,7 +212,10 @@
         font-size: large;
         color: #fff;
         margin: 10px auto;
+        margin-left: 5px;
         padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
     }
     .checkout:hover, .view-cart:hover{
         transform: translateY(-2px);

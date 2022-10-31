@@ -21,7 +21,6 @@ router.get('/',async (req, res) => {
             let nameView = req.session.user.name
             let carts = await services.cartService.getByUser(nameView);
             let extractID = carts._id;
-            console.log(extractID);
             let realValue = extractID.valueOf();
             let processProducts = await services.cartService.showProducts(realValue);
             let arrProducts = [];
@@ -30,10 +29,24 @@ router.get('/',async (req, res) => {
                 arrProducts.push(objects);
             }
             let searchAvatar = await userService.find({name:nameView});
+            let user = searchAvatar[0];
+            let users = JSON.parse(JSON.stringify(user));
             let avatar = searchAvatar[0].avatar;
             let showQuantity = await services.cartService.showQuantity(realValue);
             let total = showQuantity.reduce((a, b) => a + b, 0);
-            res.render('form', {nameView, arrProducts, avatar, total, HOST});
+            let arrPrices = [];
+            for(let i=0; i<arrProducts.length; i++){
+                let objects = (arrProducts[i].price);
+                arrPrices.push(objects);
+            }
+            let sumQuantityProdcut = [];
+            for(let i=0; i< arrPrices.length; i++){
+                let objects = (carts.products[i].quantity * arrPrices[i]);
+                sumQuantityProdcut.push(objects);
+            }
+            let totalPrice = sumQuantityProdcut.reduce((a, b) => a + b, 0);
+            let obj = JSON.parse(JSON.stringify(arrProducts));
+            res.render('form', {nameView, arrProducts, avatar, total, HOST, realValue, totalPrice, showQuantity, obj, users});
         } else {
             res.render('register', {HOST});
         }
@@ -64,7 +77,18 @@ router.get('/login',async (req, res) => {
             let users = JSON.parse(JSON.stringify(user));
             let avatar = searchAvatar[0].avatar;
             let obj = JSON.parse(JSON.stringify(arrProducts));
-            res.render('form', {nameView, avatar, total, showQuantity, obj, HOST, users, realValue});
+            let arrPrices = [];
+            for(let i=0; i<arrProducts.length; i++){
+                let objects = (arrProducts[i].price);
+                arrPrices.push(objects);
+            }
+            let sumQuantityProdcut = [];
+            for(let i=0; i< arrPrices.length; i++){
+                let objects = (carts.products[i].quantity * arrPrices[i]);
+                sumQuantityProdcut.push(objects);
+            }
+            let totalPrice = sumQuantityProdcut.reduce((a, b) => a + b, 0);
+            res.render('form', {nameView, avatar, total, showQuantity, obj, HOST, users, realValue, totalPrice});
         } else {
             res.render('login');
         }
@@ -124,7 +148,18 @@ router.get('/products',async (req, res) => {
             let total = showQuantity.reduce((a, b) => a + b, 0);
             let products = await services.productsService.getAll();
             let prods = JSON.parse(JSON.stringify(products));
-            res.render('products', {nameView, obj, avatar, realValue, total, HOST, prods});
+            let arrPrices = [];
+            for(let i=0; i<arrProducts.length; i++){
+                let objects = (arrProducts[i].price);
+                arrPrices.push(objects);
+            }
+            let sumQuantityProdcut = [];
+            for(let i=0; i< arrPrices.length; i++){
+                let objects = (carts.products[i].quantity * arrPrices[i]);
+                sumQuantityProdcut.push(objects);
+            }
+            let totalPrice = sumQuantityProdcut.reduce((a, b) => a + b, 0);
+            res.render('products', {nameView, obj, avatar, realValue, total, HOST, prods, totalPrice});
         } else {
             res.render('login', {HOST});
         }

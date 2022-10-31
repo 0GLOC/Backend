@@ -125,4 +125,12 @@ export default class MongoDBContainerCarts{
             logger.log('error',`${output} - POST - ${error}`);
         };
     };
+    deleteAllProductsInCarts = async(object) => {
+        try {
+            let objects = await this.model.updateMany({_id:object},{$pull: {products: {}}});
+            logger.log('info',`${output} - POST - Products removed`);
+        } catch (error) {
+            logger.log('error',`${output} - POST - ${error}`);
+        }
+    };
 }

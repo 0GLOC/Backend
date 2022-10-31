@@ -11,13 +11,18 @@ router.post('/', async (req, res) => {
     let extract = users[0];
     let extractName = extract.name;
 
-    const saveCart = await services.cartService.save(cart, extractName);
-    const carts = await services.cartService.getAll();
-
-    let returnId = carts[carts.length - 1].id;
-    let sum = returnId + '';
-
-    res.send({status:"success", message:"cart added", id:sum })
+    const cartsUser = await services.cartService.getByUser(extractName);
+    if (cartsUser) {
+        console.log('Existent cart');
+    } else {
+        const saveCart = await services.cartService.save(cart, extractName);
+        const carts = await services.cartService.getAll();
+    
+        let returnId = carts[carts.length - 1].id;
+        let sum = returnId + '';
+    
+        res.send({status:"success", message:"cart added", id:sum })
+    }
 });
 
 //Delete cart by id

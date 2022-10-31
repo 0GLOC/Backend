@@ -3,7 +3,7 @@ import __dirname from '../utils.js';
 import productsRouter from '../router/productos.router.js';
 import cartRouter from '../router/cart.router.js';
 import viewsRouter from '../router/views.router.js';
-import testRouter from '../router/test.router.js';
+import mailRouter from '../router/mail.router.js';
 import sessionRouter from '../router/session.router.js'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
@@ -68,7 +68,7 @@ app.set('views',__dirname+'/views');
 app.set('view engine', 'handlebars');
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
-app.use('/api/products-test', testRouter);
+app.use('/api/mail', mailRouter);
 app.use('/api/session', sessionRouter);
 app.use('/', viewsRouter);
 app.use(express.static(__dirname+'/public'));
