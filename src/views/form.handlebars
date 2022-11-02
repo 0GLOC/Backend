@@ -80,6 +80,10 @@
         location.reload(true)
     }
 
+    function recharge(){
+        setTimeout(reload, 1000)
+    }
+
     function fetchBuy(link){
         fetch(`/api/mail/{{this.nameView}}`,{
             method: 'POST',
@@ -99,7 +103,7 @@
             
         }).then(okay => {
             if(okay){
-                reload()
+                recharge()
             }
         })
     }
