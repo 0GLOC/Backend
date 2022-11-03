@@ -87,7 +87,7 @@ export default class MongoDBContainerCarts{
             let searchProduct = findProduct.includes(object.product);
 
             if (searchProduct){
-                await this.model.updateMany({},{$pull: {products: {product: object.product}}});
+                await this.model.updateMany({_id:position},{$pull: {products: {product: object.product}}});
                 object.quantity = parseInt(object.quantity) + parseInt(quantityResult);
                 let result = findProduct.indexOf(object.product);
                 let realResult = parseInt(result);

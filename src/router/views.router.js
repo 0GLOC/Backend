@@ -20,6 +20,7 @@ router.get('/',async (req, res) => {
         if (req.session.user) {
             let nameView = req.session.user.name
             let carts = await services.cartService.getByUser(nameView);
+            console.log('NAME', carts);
             let extractID = carts._id;
             let realValue = extractID.valueOf();
             let processProducts = await services.cartService.showProducts(realValue);
@@ -214,10 +215,9 @@ router.get('/registerFail',async (req, res) => {
 });
 
 router.get('/wtv',async (req, res) => {
-    let products = await services.productsService.getAll();
-    let obj = JSON.parse(JSON.stringify(products));
-    
-    res.render('products', {obj})
+    let carts = await services.cartService.getByUser('sss@hotmail.com');
+
+    console.log(carts);
 });
 
 
