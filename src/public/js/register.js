@@ -9,16 +9,24 @@ const handleSubmit = (evt, form, route) => {
     })
 }
 
+newProductData.addEventListener('submit', (e) => handleSubmit(e,e.target,'/api/session/register'))
+
+const userName = document.getElementById('user');
+
 const handleSubmitCart = (evt, form, route) => {
     evt.preventDefault();
-    let formData = new FormData(form);
+    let data = {user: userName.value};
     fetch(route, {
         method: "POST",
-        body: formData,
+        body: JSON.stringify(data),
+        headers:{
+            "Content-type": "application/json"
+        }
     })
+    .then(res => res.json())
+    .then(data => console.log(data))
 }
 
-newProductData.addEventListener('submit', (e) => handleSubmit(e,e.target,'/api/session/register'))
 newProductData.addEventListener('submit', (e) => handleSubmitCart(e,e.target,'/api/carts'))
 
 function reload(){

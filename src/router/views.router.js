@@ -20,7 +20,6 @@ router.get('/',async (req, res) => {
         if (req.session.user) {
             let nameView = req.session.user.name
             let carts = await services.cartService.getByUser(nameView);
-            console.log('NAME', carts);
             let extractID = carts._id;
             let realValue = extractID.valueOf();
             let processProducts = await services.cartService.showProducts(realValue);

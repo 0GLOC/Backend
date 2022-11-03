@@ -1,21 +1,19 @@
 import { Router } from "express";
 import services from "../dao/config.js";
-import userService from "../public/js/user.js";
 
 const router = Router();
 
 //Add cart and return id
 router.post('/', async (req, res) => {
+    let obj = req.body;
     let cart = {};
-    let users = await userService.find().sort({_id:-1}).limit(1);
-    let extract = users[0];
-    let extractName = extract.name;
+    
+    const cartsUser = await services.cartService.getByUser(obj.user);
 
-    const cartsUser = await services.cartService.getByUser(extractName);
     if (cartsUser) {
         console.log('Existent cart');
     } else {
-        const saveCart = await services.cartService.save(cart, extractName);
+        const saveCart = await services.cartService.save(cart, obj.user);
         const carts = await services.cartService.getAll();
     
         let returnId = carts[carts.length - 1].id;
