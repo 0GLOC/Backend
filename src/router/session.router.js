@@ -1,29 +1,12 @@
 import { Router } from "express";
 import passport from 'passport';
 import uploader from "../utils/utils.js";
+import sessionsController from "../controllers/sessions.controller.js";
 
 const router = Router();
 
-router.post('/register', uploader.single('file'), passport.authenticate('register', {failureRedirect: '/registerFail'}), async (req, res) => {
-    const {name, password} = req.body;
+router.post('/register', uploader.single('file'), passport.authenticate('register', {failureRedirect: '/registerFail'}), sessionsController.registerSession);
 
-    req.session.user = {
-        name: name,
-        role: "user"
-    }
-
-    res.send({status: "success", payload: req.user.name});
-});
-
-router.post('/login', passport.authenticate('login', {failureRedirect: '/loginFail'}), async (req, res) => {
-    const {name, password} = req.body;
-
-    req.session.user = {
-        name: name,
-        role: "user"
-    }
-
-    res.send({status: "success", payload: req.session.user});
-});
+router.post('/login', passport.authenticate('login', {failureRedirect: '/loginFail'}), sessionsController.loginSession);
 
 export default router;
