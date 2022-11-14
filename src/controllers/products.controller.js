@@ -1,11 +1,13 @@
+import ProductDTO from "../dao/DTOs/productDTO.js";
 import ProductService from "../services/productServices.js";
 
 const productsService = new ProductService();
 
 const returnAllProducts = async (req, res) => {
     let objects = await productsService.getAll();
+    const result = objects.map(p => new ProductDTO(p));
 
-    res.send(objects)
+    res.send({status: "success", payload: result})
 }
 
 const byId = async (req, res) => {
