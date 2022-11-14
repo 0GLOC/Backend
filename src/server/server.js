@@ -8,7 +8,7 @@ import sessionRouter from '../router/session.router.js'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import MessageLibrary from '../container/ReadMessage.js';
-import services from '../dao/config.js';
+import MessageService from '../services/messageService.js';
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import initializePassport from '../config/passport.config.js';
@@ -21,6 +21,8 @@ const app = express();
 
 let date = new Date();
 let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+
+const messagesService = new MessageService();
 
 const PORT = process.env.PORT ||configMinimist.port;
 
@@ -80,7 +82,7 @@ io.on('connection',socket => {
     socket.broadcast.emit('newUser')
     socket.on('message', async data => {
         const newObject = {author: data, text: data.text}
-        const saveObject = await services.messagesService.save(newObject);
+        const saveObject = await messagesService.save(newObject);
         let read = await ContainerMessagesSaves.readFile();
         logger.log('info', `${output} - Denormalized, ${read}`)
         let arr = [];

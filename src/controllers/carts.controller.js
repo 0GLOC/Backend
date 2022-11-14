@@ -1,16 +1,20 @@
-import services from "../dao/config.js";
+import ProductService from "../services/productServices.js";
+import CartService from "../services/cartServices.js";
+
+const productsService = new ProductService();
+const cartService = new CartService();
 
 const addCartAndReturnId = async (req, res) => {
     let obj = req.body;
     let cart = {};
     
-    const cartsUser = await services.cartService.getByUser(obj.user);
+    const cartsUser = await cartService.getByUser(obj.user);
 
     if (cartsUser) {
         console.log('Existent cart');
     } else {
-        const saveCart = await services.cartService.save(cart, obj.user);
-        const carts = await services.cartService.getAll();
+        const saveCart = await cartService.save(cart, obj.user);
+        const carts = await cartService.getAll();
     
         let returnId = carts[carts.length - 1].id;
         let sum = returnId + '';
@@ -23,14 +27,14 @@ const deleteCartById = async (req, res) => {
     let idDelete = req.params.cid;
     let realNumber = parseInt(idDelete)
 
-    let allCarts = await services.cartService.getAll();
+    let allCarts = await cartService.getAll();
 
     //Validations
     //if(isNaN(idDelete)) return res.status(400).send({error: 'Please insert a number instead'});
     let exist = allCarts.find(nickname => nickname.id == idDelete );
     if (exist === undefined) return res.status(400).send({error: 'This cart does not exist'})
     
-    let deleteCartById = await services.cartService.deleteById(idDelete);
+    let deleteCartById = await cartService.deleteById(idDelete);
     
     res.send('Cart deleted succesfully')
 }
@@ -40,7 +44,7 @@ const returnAllProductsInCartById = async (req, res) => {
     let realNumber = parseInt(idSearch)
     let sumId = realNumber - 1;
 
-    let allCarts = await services.cartService.getAll();
+    let allCarts = await cartService.getAll();
     let CartLength = allCarts.length;
 
     //Validations
@@ -49,13 +53,13 @@ const returnAllProductsInCartById = async (req, res) => {
     if (exist === undefined) return res.status(400).send({error: 'This cart does not exist'})
     if(realNumber < 1) return res.status(400).send({error: 'This cart does not exist'});    
 
-    let returnProducts = await services.cartService.showProducts(idSearch);
+    let returnProducts = await cartService.showProducts(idSearch);
     console.log('RETURN', returnProducts);
 
     let arrProducts = [];
 
     for(let i=0; i<returnProducts.length; i++){
-        let objects = await services.productsService.getById(returnProducts[i]);
+        let objects = await productsService.getById(returnProducts[i]);
         arrProducts.push(objects);
     }
 
@@ -71,8 +75,8 @@ const addProductsInCartById = async (req, res) => {
     let sumId = realNumber - 1;
 
     //Check if the id exist
-    let objects = await services.productsService.getAll();
-    let carts = await services.cartService.getAll();
+    let objects = await productsService.getAll();
+    let carts = await cartService.getAll();
     let exist = carts.find(nickname => nickname.id == idSearch );
     let existProduct = objects.find(nickname => nickname.id == newObject.product );
 
@@ -86,7 +90,7 @@ const addProductsInCartById = async (req, res) => {
     if(!newObject.product || !newObject.quantity) return res.status(400).send({error: 'Please add the missing fields'});
 
 
-    await services.cartService.refresh(idSearch, newObject);
+    await cartService.refresh(idSearch, newObject);
 
     res.send({status: 'New product add succesfully'});
 }
@@ -98,8 +102,8 @@ const deleteProductsInCartById = async (req, res) => {
 
 
     //Check if the id exist
-    let carts = await services.cartService.getAll();
-    let objects = await services.productsService.getAll();
+    let carts = await cartService.getAll();
+    let objects = await productsService.getAll();
 
     let existCart = carts.find(nickname => nickname.id == idSearchCart );
     let existProduct = objects.find(nickname => nickname.id == realNumberProduct );
@@ -111,7 +115,7 @@ const deleteProductsInCartById = async (req, res) => {
     if (existProduct === undefined) return res.status(400).send({error: 'This product does not exist'})
     if(realNumberProduct < 0) return res.status(400).send({error: 'This product does not exist'});
 
-    await services.cartService.replaceObject(carts, idSearchProduct, idSearchCart);
+    await cartService.replaceObject(carts, idSearchProduct, idSearchCart);
 
     res.send({status: 'Product deleted succesfully'});
 }

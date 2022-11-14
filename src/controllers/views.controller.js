@@ -1,6 +1,11 @@
 import services from "../dao/config.js";
 import userService from "../public/js/user.js";
 import config from "../config/config.js";
+import ProductService from "../services/productServices.js";
+import CartService from "../services/cartServices.js";
+
+const productsService = new ProductService();
+const cartService = new CartService();
 
 let objects = await services.productsService.getAll();
 
@@ -15,20 +20,20 @@ const viewRegister = async (req, res) => {
     } else {
         if (req.session.user) {
             let nameView = req.session.user.name
-            let carts = await services.cartService.getByUser(nameView);
+            let carts = await cartService.getByUser(nameView);
             let extractID = carts._id;
             let realValue = extractID.valueOf();
-            let processProducts = await services.cartService.showProducts(realValue);
+            let processProducts = await cartService.showProducts(realValue);
             let arrProducts = [];
             for(let i=0; i<processProducts.length; i++){
-                let objects = await services.productsService.getById(processProducts[i]);
+                let objects = await productsService.getById(processProducts[i]);
                 arrProducts.push(objects);
             }
             let searchAvatar = await userService.find({name:nameView});
             let user = searchAvatar[0];
             let users = JSON.parse(JSON.stringify(user));
             let avatar = searchAvatar[0].avatar;
-            let showQuantity = await services.cartService.showQuantity(realValue);
+            let showQuantity = await cartService.showQuantity(realValue);
             let total = showQuantity.reduce((a, b) => a + b, 0);
             let arrPrices = [];
             for(let i=0; i<arrProducts.length; i++){
@@ -69,15 +74,15 @@ const viewLogin = async (req, res) => {
     } else {
         if (req.session.user) {
             let nameView = req.session.user.name
-            let carts = await services.cartService.getByUser(nameView);
+            let carts = await cartService.getByUser(nameView);
             let extractID = carts._id;
             let realValue = extractID.valueOf();
-            let processProducts = await services.cartService.showProducts(realValue);
+            let processProducts = await cartService.showProducts(realValue);
             let arrProducts = [];
-            let showQuantity = await services.cartService.showQuantity(realValue);
+            let showQuantity = await cartService.showQuantity(realValue);
             let total = showQuantity.reduce((a, b) => a + b, 0);
             for(let i=0; i<processProducts.length; i++){
-                let objects = await services.productsService.getById(processProducts[i]);
+                let objects = await productsService.getById(processProducts[i]);
                 arrProducts.push(objects);
             }
             let searchAvatar = await userService.find({name:nameView});
@@ -135,7 +140,7 @@ const postProducts = async (req, res) => {
     if(!product.title) return res.status(400).send({status:"error", message:"Invalid Title"})
     if(!product.price) return res.status(400).send({status:"error", message:"Invalid Price"})
 
-    const saveObject = await services.productsService.save(product);
+    const saveObject = await productsService.save(product);
 
     let returnId = objects[objects.length - 1].id;
     let sum = returnId + '';
@@ -154,21 +159,21 @@ const getProducts = async (req, res) => {
      else {
         if (req.session.user) {
             let nameView = req.session.user.name
-            let carts = await services.cartService.getByUser(nameView);
+            let carts = await cartService.getByUser(nameView);
             let extractID = carts._id;
             let realValue = extractID.valueOf();
-            let processProducts = await services.cartService.showProducts(realValue);
+            let processProducts = await cartService.showProducts(realValue);
             let arrProducts = [];
             for(let i=0; i<processProducts.length; i++){
-                let objects = await services.productsService.getById(processProducts[i]);
+                let objects = await productsService.getById(processProducts[i]);
                 arrProducts.push(objects);
             }
             let obj = JSON.parse(JSON.stringify(arrProducts));
             let searchAvatar = await userService.find({name:nameView});
             let avatar = searchAvatar[0].avatar;
-            let showQuantity = await services.cartService.showQuantity(realValue);
+            let showQuantity = await cartService.showQuantity(realValue);
             let total = showQuantity.reduce((a, b) => a + b, 0);
-            let products = await services.productsService.getAll();
+            let products = await productsService.getAll();
             let prods = JSON.parse(JSON.stringify(products));
             let arrPrices = [];
             for(let i=0; i<arrProducts.length; i++){

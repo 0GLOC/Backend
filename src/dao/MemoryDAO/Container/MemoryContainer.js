@@ -11,7 +11,7 @@ export default class MemoryContainer{
         try {
             return this.data;
         } catch (error) {
-            console.log(error);
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
     save = async(object) => {
@@ -32,7 +32,7 @@ export default class MemoryContainer{
             };
 
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     replaceObject = async(position, object) => {
@@ -41,7 +41,7 @@ export default class MemoryContainer{
             let objects = await this.getAll();
             objects.splice(sumId, 1, object)
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     getById = async(object) => {
@@ -50,7 +50,7 @@ export default class MemoryContainer{
             const result = objects.filter(function (nickname) { return nickname.id == object });
             return result
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         };
     };
     deleteById = async(object) => {
@@ -60,7 +60,7 @@ export default class MemoryContainer{
             objects.splice(realnum, 1,);
             logger.log('info',`${output} - POST - File removed`);
         } catch (error) {
-            console.log(error)
+            logger.log('error',`${output} - POST - ${error}`);
         }
     };
 }

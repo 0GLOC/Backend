@@ -1,6 +1,8 @@
 import { normalize, schema, denormalize } from 'normalizr';
-import services from '../dao/config.js';
+import MessageService from '../services/messageService.js';
 import logger from '../logger/logger.winston.js';
+
+const messagesService = new MessageService();
 
 let date = new Date();
 let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
@@ -8,7 +10,7 @@ let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMont
 export default class MessageLibrary {
     readFile = async() => {
         try {
-            let readFromMongo = await services.messagesService.getAllExceptId();
+            let readFromMongo = await messagesService.getAllExceptId();
             let obj = readFromMongo[0];
             let string = JSON.stringify(obj);
             let messages = JSON.parse(string);

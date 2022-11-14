@@ -1,7 +1,9 @@
-import services from "../dao/config.js";
+import ProductService from "../services/productServices.js";
+
+const productsService = new ProductService();
 
 const returnAllProducts = async (req, res) => {
-    let objects = await services.productsService.getAll();
+    let objects = await productsService.getAll();
 
     res.send(objects)
 }
@@ -12,13 +14,13 @@ const byId = async (req, res) => {
 
     const admin = false;
 
-    let objects = await services.productsService.getAll();
+    let objects = await productsService.getAll();
     let exist = objects.find(nickname => nickname.id == realNumber );
 
     if(isNaN(idSearch)) return res.status(400).send({error: 'Please insert a number instead'})
     if (exist === undefined) return res.status(400).send({error: 'This product does not exist'})
 
-    let objectById = await services.productsService.getById(idSearch);
+    let objectById = await productsService.getById(idSearch);
 
     res.send(objectById)
 }
@@ -33,8 +35,8 @@ const addAndReturnId = async (req, res) => {
     if(!product.title) return res.status(400).send({status:"error", message:"Invalid Title"})
     if(!product.price) return res.status(400).send({status:"error", message:"Invalid Price"})
 
-    const saveObject = await services.productsService.save(product);
-    const objects = await services.productsService.getAll();
+    const saveObject = await productsService.save(product);
+    const objects = await productsService.getAll();
 
     let returnId = objects[objects.length - 1].id;
     let sum = returnId + '';
@@ -47,7 +49,7 @@ const returnAndRefresh = async (req, res) => {
     let idSearch = req.params.pid;
     let realNumber = parseInt(idSearch)
 
-    const objects = await services.productsService.getAll();
+    const objects = await productsService.getAll();
 
     let randomCalculator = Date.now();
     let random = Math.round(Math.random()*randomCalculator);
@@ -65,7 +67,7 @@ const returnAndRefresh = async (req, res) => {
     if (exist === undefined) return res.status(400).send({error: 'This product does not exist'})
     if(!newObject.title || !newObject.price || !newObject.thumbnail || !newObject.descripcion) return res.status(400).send({error: 'Please add the missing fields'});
 
-    await services.productsService.replaceObject(realNumber, newObject);
+    await productsService.replaceObject(realNumber, newObject);
 
     res.send({status: 'New object add succesfully'});
 }
@@ -74,7 +76,7 @@ const deleteById = async (req, res) => {
     let idDelete = req.params.pid;
     let realNumber = parseInt(idDelete)
 
-    const objects = await services.productsService.getAll();
+    const objects = await productsService.getAll();
     const admin = true;
 
     let exist = objects.find(nickname => nickname.id == realNumber );
@@ -85,7 +87,7 @@ const deleteById = async (req, res) => {
     if (exist === undefined) return res.status(400).send({error: 'This product does not exist'})
     if(realNumber < 0) return res.status(400).send({error: 'This product does not exist'});
     
-    let deleteProductById = await services.productsService.deleteById(idDelete);
+    let deleteProductById = await productsService.deleteById(idDelete);
 
     res.send('Product deleted succesfully')
 }

@@ -1,7 +1,11 @@
 import MailingService from "../container/mailing.js";
-import services from "../dao/config.js";
+import ProductService from "../services/productServices.js";
+import CartService from "../services/cartServices.js";
 import config from "../config/config.js";
 import userService from "../public/js/user.js";
+
+const productsService = new ProductService();
+const cartService = new CartService();
 
 let HOST = config.host.HOST_URL + 'img/' + '';
 
@@ -9,13 +13,13 @@ const postMail = async (req, res) => {
     let param = req.params.cid;
     let searchUserName = await userService.find({name:param});
     let userName = searchUserName[0].userName;
-    let carts = await services.cartService.getByUser(param);
+    let carts = await cartService.getByUser(param);
     let extractID = carts._id;
     let realValue = extractID.valueOf();
-    let processProducts = await services.cartService.showProducts(realValue);
+    let processProducts = await cartService.showProducts(realValue);
     let arrProducts = [];
     for(let i=0; i<processProducts.length; i++){
-        let objects = await services.productsService.getById(processProducts[i]);
+        let objects = await productsService.getById(processProducts[i]);
         arrProducts.push(objects);
     }
     let arrPrices = [];
@@ -54,7 +58,7 @@ const postMail = async (req, res) => {
         attachments: attachments
     })
     
-    let deleteProducts = await services.cartService.deleteAllProductsInCarts(realValue);
+    let deleteProducts = await cartService.deleteAllProductsInCarts(realValue);
 
     res.send({status: "success", message: "Email sent"})
 }
