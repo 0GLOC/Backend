@@ -43,7 +43,7 @@ const addAndReturnId = async (req, res) => {
     let returnId = objects[objects.length - 1].id;
     let sum = returnId + '';
 
-    res.send({status:"success", message:"product added", id:sum })
+    res.send({status:"success", message:"product added", id:sum, payload: product})
 }
 
 const returnAndRefresh = async (req, res) => {

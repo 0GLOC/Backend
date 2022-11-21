@@ -65,7 +65,7 @@ const returnAllProductsInCartById = async (req, res) => {
 
     console.log(arrProducts);
         
-    res.send(arrProducts);
+    res.send({status: 'success', payload: arrProducts});
 }
 
 const addProductsInCartById = async (req, res) => {
@@ -92,7 +92,9 @@ const addProductsInCartById = async (req, res) => {
 
     await cartService.refresh(idSearch, newObject);
 
-    res.send({status: 'New product add succesfully'});
+    let cartSearch = await cartService.getById(idSearch);
+
+    res.send({status: 'New product add succesfully', payload: cartSearch});
 }
 
 const deleteProductsInCartById = async (req, res) => {
