@@ -30,12 +30,14 @@ export default class MongoDBContainer{
                 object._id = 1;
                 object.code = random;
                 object.timestamp = Date.now();
-                await this.model.create(object);
+                let result = await this.model.create(object);
+                return result;
             } else {
                 object._id = objects.length + 1;
                 object.code = random;
                 object.timestamp = Date.now();
-                await this.model.create(object);
+                let result = await this.model.create(object);
+                return result;
             };
         } catch (error) {
             logger.log('error',`${output} - POST - ${error}`);

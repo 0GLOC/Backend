@@ -30,6 +30,7 @@ export default class MongoDBContainerCarts{
             object.user = user;
             let saveObject = await this.model.create(object);
             logger.log('info',`${output} - POST - ${saveObject}`);
+            return saveObject;
         } catch (error) {
             logger.log('error',`${output} - POST - ${error}`);
         };

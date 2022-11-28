@@ -18,6 +18,9 @@ import config from '../config/config.js';
 import logger from '../logger/logger.winston.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
+import { ApolloServer } from 'apollo-server-express';
+import typeDefs from '../graphql/typeDefs.js';
+import resolvers from '../graphql/resolvers.js';
 
 const app = express();
 
@@ -33,6 +36,13 @@ const swaggerOptions = {
 }
 
 const specs = swaggerJSDoc(swaggerOptions);
+
+const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers
+});
+await apolloServer.start();
+apolloServer.applyMiddleware({app})
 
 let date = new Date();
 let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();

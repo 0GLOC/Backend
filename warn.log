@@ -26,3 +26,4 @@
 {"level":"error","message":"30/10/2022 - POST - ReferenceError: location is not defined"}
 {"level":"error","message":"30/10/2022 - POST - ReferenceError: location is not defined"}
 {"level":"error","message":"30/10/2022 - POST - ReferenceError: location is not defined"}
+{"level":"error","message":"28/11/2022 - POST - ValidationError: user: Cast to string failed for value \"{ user: 'TESTGRAPHQL' }\" (type Object) at path \"user\""}
