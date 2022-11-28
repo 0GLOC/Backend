@@ -16,8 +16,23 @@ import passport from 'passport';
 import configMinimist from '../utils/minimistArgs.js';
 import config from '../config/config.js';
 import logger from '../logger/logger.winston.js';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express();
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: "API Swagger",
+            description: "API Testing with Swagger"
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions);
 
 let date = new Date();
 let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
@@ -73,6 +88,7 @@ app.use('/api/carts', cartRouter);
 app.use('/api/mail', mailRouter);
 app.use('/api/session', sessionRouter);
 app.use('/', viewsRouter);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use(express.static(__dirname+'/public'));
 app.use(error404);
 

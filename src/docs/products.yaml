@@ -1,0 +1,114 @@
+components:
+  requestBodies:
+    newProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Title of the product
+        price:
+          type: Number
+          description: Price of the product
+        thumbnail:
+          type: String
+          description: Picture of the product (saved in database)
+        descripcion:
+          type: String
+          description: Description of the product
+      example:
+        title: Grand Theft Auto Vice City Stories
+        price: 200
+        thumbnail: 1658705127266-the messenger.jpg
+        descripcion: La ciudad parodia a la Miami de los años 80, un paraíso de corrupción y el mejor lugar para narcotraficantes y mafiosos. El protagonista del juego es Victor Vance, hermano de Lance Vance (quien aparecerá en el juego, pero que no se podrá controlar), colega de Tommy Vercetti, el protagonista de GTA Vice City.
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: Number
+          description: Id auto generate in mongo
+        title:
+          type: String
+          description: Title of the product
+        price:
+          type: Number
+          description: Price of the product
+        thumbnail:
+          type: String
+          description: Picture of the product (saved in database)
+        descripcion:
+          type: String
+          description: Description of the product
+        code:
+          type: Number
+          description: Code of product's create
+        timestamp:
+          type: Number
+          description: Date of product's create
+      example:
+        _id: 28
+        title: Grand Theft Auto Vice City Stories
+        price: 200
+        thumbnail: 1658705127266-the messenger.jpg
+        descripcion: La ciudad parodia a la Miami de los años 80, un paraíso de corrupción y el mejor lugar para narcotraficantes y mafiosos. El protagonista del juego es Victor Vance, hermano de Lance Vance (quien aparecerá en el juego, pero que no se podrá controlar), colega de Tommy Vercetti, el protagonista de GTA Vice City.
+        code: 203809182368
+        timestamp: 1667039894461
+
+paths:
+  /api/products/:
+    get:
+      summary: Get all products in database
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Get all products succesfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: Create new product
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/requestBodies/newProduct'
+      responses:
+        "200":
+          description: "New product added succesfully"
+        "400":
+          description: "Please insert all fields correctly"
+        "500":
+          description: "Internal database insert error"
+  /api/products/{pid}:
+    get:
+      summary: Get product in database by id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id of the product saved in the database
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Get product succesfully
+        "400":
+          description: "Please insert all fields correctly"
+        "500":
+          description: "Internal database insert error"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            

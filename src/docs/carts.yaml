@@ -1,0 +1,72 @@
+components:
+  requestBodies:
+    newCart:
+      type: object
+      properties:
+        user:
+          type: String
+          description: User of the Cart
+      example:
+        user: Roberto
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id auto generate in mongo
+        user:
+          type: String
+          description: User of the Cart
+        timestamp:
+          type: Number
+          description: Date of cart's create
+        products:
+          type: array
+          description: Products in cart
+      example:
+        _id: ObjectId('632ddee535b9fdb8c9ebb648')
+        user: Roberto
+        timestamp: 1667039894461
+        products: []
+
+paths:
+  /api/carts/:
+    post:
+      summary: Create a new cart
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/requestBodies/newCart'
+      responses:
+        "200":
+          description: Cart create succesfully
+        "400":
+          description: "Please insert all fields correctly"
+        "500":
+          description: "Internal database insert error"
+  /api/carts/{cid}/products:
+    get:
+      summary: Get products in cart by id in database
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id of the cart saved in the database
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get cart succesfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
