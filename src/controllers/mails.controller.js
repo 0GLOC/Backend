@@ -2,7 +2,7 @@ import MailingService from "../container/mailing.js";
 import ProductService from "../services/productServices.js";
 import CartService from "../services/cartServices.js";
 import config from "../config/config.js";
-import userService from "../public/js/user.js";
+import userService from "../dao/MongoDAO/user.js";
 
 const productsService = new ProductService();
 const cartService = new CartService();

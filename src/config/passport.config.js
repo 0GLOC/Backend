@@ -1,6 +1,6 @@
 import passport from 'passport';
 import local from 'passport-local';
-import userService from '../public/js/user.js';
+import userService from '../dao/MongoDAO/user.js';
 import { createHash, isValidPassword } from '../utils.js';
 
 const LocalStategy = local.Strategy;

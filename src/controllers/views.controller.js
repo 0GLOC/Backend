@@ -1,5 +1,5 @@
 import services from "../dao/config.js";
-import userService from "../public/js/user.js";
+import userService from "../dao/MongoDAO/user.js";
 import config from "../config/config.js";
 import ProductService from "../services/productServices.js";
 import CartService from "../services/cartServices.js";
