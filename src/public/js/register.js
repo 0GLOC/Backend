@@ -34,5 +34,5 @@ function reload(){
 }
 
 newProductData.onsubmit = function(){
-    setTimeout(reload, 1000)
+    setTimeout(reload, 2000)
 }
