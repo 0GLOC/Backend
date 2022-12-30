@@ -16,7 +16,7 @@
         <input class="registerInput" type="number" name="phone" placeholder="Escribe aquí tu numero teléfonico">
         <label class="labelRegister">Avatar:</label>
         <input class="form-control" type="file" name="file" id="file" placeholder="Ingrese su imagen" autoComplete='off'/>
-        <button class="redirect" type="button" onclick="goToLink(this)" value="{{HOST}}login">Ya tienes una cuenta? Ingresa</button>
+        <button class="redirect" id="hideButton" type="button" onclick="goToLink(this)" value="{{HOST}}login">Ya tienes una cuenta? Ingresa</button>
         <input class="registerButton" id="hideInput" type="submit">
     </form>
     <div class="spinner-border text-light" id="spinnerr" role="status">
@@ -75,6 +75,7 @@
     }
     .spinner-border.text-light{
         display: none;
+        margin-top: 15px;
         margin-left: 46%;
     }
     input::-webkit-outer-spin-button,

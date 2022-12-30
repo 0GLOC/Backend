@@ -36,6 +36,7 @@ function reload(){
 function displaySpinner(){
     document.getElementById("spinnerr").style.display = "flex";
     document.getElementById("hideInput").style.display = "none";
+    document.getElementById("hideButton").style.display = "none";
 }
 
 newProductData.onsubmit = function(){
