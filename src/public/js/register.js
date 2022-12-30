@@ -29,10 +29,15 @@ const handleSubmitCart = (evt, form, route) => {
 
 newProductData.addEventListener('submit', (e) => handleSubmitCart(e,e.target,'/api/carts'))
 
-function reload(){
-    location.reload(true)
-}
 
 newProductData.onsubmit = function(){
-    setTimeout(reload, 2000)
+    activated();
+}
+
+function reloadAgain(){
+    window.location.href = "https://backend-production-8940.up.railway.app/";
+}
+
+function activated(){
+    setTimeout(reloadAgain, 2000)
 }
