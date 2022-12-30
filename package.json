@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server/server.js DEV",
-    "start": "nodemon src/server/server.js",
+    "start": "node src/server/server.js",
     "test": "mocha src/apitest.test.js"
   },
   "keywords": [],
