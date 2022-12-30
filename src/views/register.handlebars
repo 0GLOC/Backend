@@ -17,8 +17,9 @@
         <label class="labelRegister">Avatar:</label>
         <input class="form-control" type="file" name="file" id="file" placeholder="Ingrese su imagen" autoComplete='off'/>
         <button class="redirect" type="button" onclick="goToLink(this)" value="{{HOST}}login">Ya tienes una cuenta? Ingresa</button>
-        <input class="registerButton" type="submit">
+        <input class="registerButton" id="hideInput" type="submit">
     </form>
+    <div class="spinner-border text-light" id="spinnerr" role="status">
 </div>
 <script src="js/register.js"></script>
 
@@ -71,6 +72,10 @@
         transform: translateY(-2px);
         box-shadow: rgb(2, 43, 2) 0 5px 7px;
         cursor: pointer;
+    }
+    .spinner-border.text-light{
+        display: none;
+        margin-left: 46%;
     }
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {

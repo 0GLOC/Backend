@@ -33,6 +33,12 @@ function reload(){
     location.reload(true)
 }
 
+function displaySpinner(){
+    document.getElementById("spinnerr").style.display = "flex";
+    document.getElementById("hideInput").style.display = "none";
+}
+
 newProductData.onsubmit = function(){
     setTimeout(reload, 3000)
+    displaySpinner()
 }
